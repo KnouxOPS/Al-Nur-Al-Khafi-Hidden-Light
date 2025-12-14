@@ -1,13 +1,12 @@
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 import { createI18n } from 'vue-i18n';
 
 import App from './App.vue';
 import router from './router/index.js';
-import store from './store/index.js';
 
 // Import styles
 import './assets/styles/main.scss';
-import './assets/styles/global.scss';
 
 // Import locales
 import ar from './locales/ar.js';
@@ -15,9 +14,10 @@ import en from './locales/en.js';
 
 // Create i18n instance
 const i18n = createI18n({
-  legacy: false,
+  legacy: false, // Use Composition API
   locale: localStorage.getItem('language') || 'ar',
   fallbackLocale: 'en',
+  globalInjection: true,
   messages: {
     ar,
     en
@@ -28,7 +28,7 @@ const i18n = createI18n({
 const app = createApp(App);
 
 // Use plugins
-app.use(store);
+app.use(createPinia());
 app.use(router);
 app.use(i18n);
 

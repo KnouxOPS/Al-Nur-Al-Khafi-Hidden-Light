@@ -1,2 +1,2 @@
-// This file is deprecated. The application has been migrated to Vue.js.
-// See main.js and App.vue.
+// DEPRECATED: This file has been removed as part of the migration to Vue.js.
+// Please use src/main.js instead.

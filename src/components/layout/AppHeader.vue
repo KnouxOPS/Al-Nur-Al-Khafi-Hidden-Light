@@ -31,19 +31,17 @@
           to="/ai-search" 
           class="action-button ai-button" 
           :title="t('nav.aiSearch') || 'AI Search'"
-          :aria-label="t('nav.aiSearch') || 'AI Search'"
         >
           <span aria-hidden="true">✨</span>
         </router-link>
 
-        <!-- Search Button -->
+        <!-- Search Button (Emits Event) -->
         <button 
           class="action-button search-button" 
-          @click="toggleSearch"
+          @click="$emit('open-search')"
           :title="t('common.search')"
-          :aria-label="t('common.search')"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
@@ -54,7 +52,6 @@
           class="action-button theme-toggle" 
           @click="toggleTheme"
           :title="currentTheme === 'dark' ? t('settings.light') : t('settings.dark')"
-          :aria-label="currentTheme === 'dark' ? t('settings.light') : t('settings.dark')"
         >
           <span v-if="currentTheme === 'dark'" aria-hidden="true">☀️</span>
           <span v-else aria-hidden="true">🌙</span>
@@ -64,19 +61,14 @@
         <button 
           class="action-button language-switcher" 
           @click="toggleLanguage"
-          :title="currentLanguage === 'ar' ? 'English' : 'العربية'"
-          :aria-label="currentLanguage === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'"
         >
-          <span class="lang-code" aria-hidden="true">{{ currentLanguage === 'ar' ? 'EN' : 'عربي' }}</span>
+          <span class="lang-code">{{ currentLanguage === 'ar' ? 'EN' : 'عربي' }}</span>
         </button>
 
         <!-- Mobile Menu Button -->
         <button 
           class="action-button menu-button hidden-desktop" 
           @click="toggleMobileMenu"
-          :aria-label="mobileMenuOpen ? t('common.close') : t('common.menu')"
-          :aria-expanded="mobileMenuOpen"
-          aria-controls="mobile-nav"
         >
           <span aria-hidden="true">{{ mobileMenuOpen ? '✕' : '☰' }}</span>
         </button>
@@ -102,16 +94,9 @@
               ✨ {{ t('nav.aiSearch') || 'AI Guide' }}
             </router-link>
           </li>
-          <li class="mobile-nav-item">
-            <router-link to="/about" class="mobile-nav-link" active-class="active" @click="closeMobileMenu">
-              {{ t('nav.about') }}
-            </router-link>
-          </li>
         </ul>
       </div>
     </transition>
-
-    <SearchModal :is-open="isSearchOpen" @close="closeSearch" />
   </header>
 </template>
 
@@ -121,17 +106,18 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useTheme } from '@/composables/useTheme';
 import { useMainStore } from '@/store';
-import SearchModal from '@/components/navigation/SearchModal.vue';
 
 const { t, locale } = useI18n();
 const router = useRouter();
 const store = useMainStore();
 const { currentTheme, toggleTheme } = useTheme();
 
+// Emits
+defineEmits(['open-search']);
+
 // State
 const isScrolled = ref(false);
 const mobileMenuOpen = ref(false);
-const isSearchOpen = ref(false);
 const currentLanguage = computed(() => store.preferences.language);
 
 // Navigation items
@@ -144,7 +130,7 @@ const navItems = [
   { name: 'wisdom', path: '/wisdom' }
 ];
 
-// Handle scroll effect
+// Methods
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 20;
 };
@@ -155,19 +141,6 @@ const toggleMobileMenu = () => {
 
 const closeMobileMenu = () => {
   mobileMenuOpen.value = false;
-};
-
-const toggleSearch = () => {
-  isSearchOpen.value = !isSearchOpen.value;
-};
-
-const closeSearch = () => {
-  isSearchOpen.value = false;
-};
-
-const goHome = () => {
-  router.push('/');
-  closeMobileMenu();
 };
 
 const toggleLanguage = () => {
@@ -280,11 +253,6 @@ onUnmounted(() => {
     color: $dark-accent;
     background: rgba($dark-accent, 0.05);
   }
-  
-  &:focus-visible {
-    outline: 2px solid $dark-accent;
-    outline-offset: 2px;
-  }
 }
 
 .header-actions {
@@ -316,11 +284,6 @@ onUnmounted(() => {
     color: $dark-accent;
     border-color: $dark-accent;
   }
-  
-  &:focus-visible {
-    outline: 2px solid $dark-accent;
-    outline-offset: 2px;
-  }
 
   &.ai-button {
     border-color: $dark-accent;
@@ -334,17 +297,11 @@ onUnmounted(() => {
   }
 }
 
-.hidden-desktop {
-  display: none;
-}
+.hidden-desktop { display: none; }
 
 @media (max-width: $breakpoint-tablet) {
-  .hidden-mobile {
-    display: none;
-  }
-  .hidden-desktop {
-    display: block;
-  }
+  .hidden-mobile { display: none; }
+  .hidden-desktop { display: block; }
 }
 
 .mobile-nav {
@@ -383,14 +340,6 @@ onUnmounted(() => {
   }
 }
 
-.slide-enter-active,
-.slide-leave-active {
-  transition: all 0.3s ease;
-}
-
-.slide-enter-from,
-.slide-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
-}
+.slide-enter-active, .slide-leave-active { transition: all 0.3s ease; }
+.slide-enter-from, .slide-leave-to { opacity: 0; transform: translateY(-10px); }
 </style>

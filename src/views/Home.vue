@@ -2,42 +2,49 @@
   <div class="home-view">
     <!-- Hero Section -->
     <section class="hero-section">
-      <div class="parallax-sky">
-        <div class="clouds">
-          <div class="cloud cloud-sm" style="left: 12%;"></div>
-          <div class="cloud cloud-m" style="left: 18%;"></div>
-          <div class="cloud cloud-m" style="right: 15%;"></div>
-          <div class="clouds-delay" style="left: 32%;"></div>
-        </div>
+      <div class="hero-background">
+        <img 
+          src="https://images.unsplash.com/photo-1519817650390-64a93db51149?q=80&w=2000&auto=format&fit=crop" 
+          alt="Starry Night Background" 
+          class="bg-image"
+        />
+        <div class="hero-overlay"></div>
       </div>
 
       <div class="hero-content">
-        <figure class="fire">
-          <div class="fire-ribbon"></div>
-        </figure>
+        <div class="content-wrapper">
+          <header class="animate-fade-up delay-1">
+            <h1 class="hero-title">
+              <span class="highlight">{{ t('home.project_name_part1') }}</span> 
+              <span class="text-white">{{ t('home.project_name_part2') }}</span>
+            </h1>
+          </header>
 
-        <header>
-          <h1 class="hero-title text-elite">
-            <span>{{ t('home.project_name_part1') }}</span> {{ t('home.project_name_part2') }}
-          </h1>
-        </header>
+          <p class="hero-subtitle animate-fade-up delay-2">
+            {{ t('home.hero_subtitle') }}
+          </p>
 
-        <p class="hero-subtitle">{{ t('home.hero_subtitle') }}</p>
-
-        <div class="action-bar">
-          <router-link to="/biography" class="btn btn-primary">
-            {{ t('home.start_biography') }}
-          </router-link>
-          <button @click="beginLightJourney" class="btn btn-outline">
-            {{ t('home.explore_journey') }}
-          </button>
+          <div class="action-bar animate-fade-up delay-3">
+            <router-link to="/biography" class="btn btn-primary glow-effect">
+              <span>{{ t('home.start_biography') }}</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </router-link>
+            <button @click="beginLightJourney" class="btn btn-outline glass-effect">
+              {{ t('home.explore_journey') }}
+            </button>
+          </div>
         </div>
       </div>
 
-      <div class="logo-placeholder">
-        <svg class="q-logo-paw" viewBox="0 0 100 100">
-          <path d="M50,15 L65,35 L85,30 L75,50 L85,70 L65,65 L50,85 L35,65 L15,70 L25,50 L15,30 L35,35 Z" fill="#FFD700"/>
-        </svg>
+      <div class="scroll-indicator animate-fade-in delay-4">
+        <div class="mouse">
+          <div class="wheel"></div>
+        </div>
+        <div class="arrows">
+          <span></span><span></span><span></span>
+        </div>
       </div>
     </section>
 
@@ -140,7 +147,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useMainStore } from '@/store'; // Corrected from useStore to useMainStore
+import { useMainStore } from '@/store';
 
 const { t } = useI18n();
 const store = useMainStore();
@@ -195,7 +202,8 @@ const timelineEvents = ref([
 ]);
 
 function beginLightJourney() {
-  alert(t('home.journey_started'));
+  const el = document.querySelector('.timeline-section');
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
 
 function shareHadith(hadith) {
@@ -225,112 +233,251 @@ function bookmarkHadith(hadith) {
 
 .hero-section {
   position: relative;
-  height: 80vh;
-  min-height: 600px;
+  height: 100vh;
+  min-height: 700px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: linear-gradient(to bottom, rgba($dark-primary, 0.9), rgba($dark-secondary, 0.7));
+}
 
-  .parallax-sky {
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+
+  .bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: zoomEffect 20s infinite alternate ease-in-out;
+  }
+
+  .hero-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle, #0f2027, #203a43, #2c5364);
-    z-index: -1;
+    background: linear-gradient(
+      to bottom,
+      rgba($dark-primary, 0.4),
+      rgba($dark-primary, 0.7) 60%,
+      $dark-primary
+    );
   }
+}
 
-  .cloud {
-    position: absolute;
-    width: 100px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    filter: blur(10px);
-  }
-
-  .cloud-sm {
-    width: 60px;
-    height: 30px;
-  }
-
-  .cloud-m {
-    width: 100px;
-    height: 40px;
-  }
-
-  .clouds-delay {
-    animation: float 10s infinite ease-in-out;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-
-  .fire {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -70%);
-    width: 80px;
-    height: 80px;
-    opacity: 0.7;
-
-    .fire-ribbon {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, #ff512f, #dd2476);
-      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-    }
-  }
+@keyframes zoomEffect {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
 }
 
 .hero-content {
   text-align: center;
   z-index: 2;
-  max-width: 800px;
+  width: 100%;
   padding: 0 $spacing-md;
+  
+  .content-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+  }
 
   .hero-title {
-    font-size: $font-size-xxxl;
+    font-size: 3.5rem;
+    font-weight: 800;
     color: $dark-text;
-    margin-bottom: $spacing-md;
-    line-height: 1.2;
-    span {
+    margin-bottom: $spacing-lg;
+    line-height: 1.1;
+    font-family: 'Amiri', serif;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    
+    @media (min-width: $breakpoint-tablet) {
+      font-size: 5rem;
+    }
+
+    .highlight {
       color: $dark-accent;
+      display: inline-block;
+      position: relative;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        width: 100%;
+        height: 10px;
+        background-color: rgba($dark-accent, 0.3);
+        z-index: -1;
+        border-radius: 4px;
+      }
+    }
+    
+    .text-white {
+      color: #fff;
     }
   }
 
   .hero-subtitle {
     font-size: $font-size-xl;
-    color: $dark-text-secondary;
-    margin-bottom: $spacing-xl;
+    color: rgba($dark-text, 0.9);
+    margin-bottom: $spacing-xxl;
     line-height: 1.6;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 300;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
   }
 
   .action-bar {
     display: flex;
     justify-content: center;
-    gap: $spacing-md;
+    gap: $spacing-lg;
     flex-wrap: wrap;
   }
 }
 
-.logo-placeholder {
+// Animations
+.animate-fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.animate-fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.5s; }
+.delay-3 { animation-delay: 0.8s; }
+.delay-4 { animation-delay: 1.5s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.scroll-indicator {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
-  opacity: 0.4;
-  .q-logo-paw {
-    width: 100%;
-    height: 100%;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.7;
+  
+  .mouse {
+    width: 26px;
+    height: 40px;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 13px;
+    position: relative;
+    
+    .wheel {
+      width: 4px;
+      height: 4px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: wheelDrop 1.5s infinite;
+    }
+  }
+  
+  .arrows {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -5px;
+    
+    span {
+      display: block;
+      width: 10px;
+      height: 10px;
+      border-bottom: 2px solid rgba(255,255,255,0.5);
+      border-right: 2px solid rgba(255,255,255,0.5);
+      transform: rotate(45deg);
+      margin: -3px;
+      animation: arrowScroll 1.5s infinite;
+      
+      &:nth-child(2) { animation-delay: 0.2s; }
+      &:nth-child(3) { animation-delay: 0.4s; }
+    }
+  }
+}
+
+@keyframes wheelDrop {
+  0% { top: 8px; opacity: 1; }
+  100% { top: 20px; opacity: 0; }
+}
+
+@keyframes arrowScroll {
+  0% { opacity: 0; transform: rotate(45deg) translate(-5px, -5px); }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: rotate(45deg) translate(5px, 5px); }
+}
+
+.btn {
+  padding: 14px 32px;
+  border-radius: $border-radius-pill;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &.btn-primary {
+    background-color: $dark-accent;
+    color: $dark-primary;
+    border: none;
+    
+    &:hover {
+      background-color: lighten($dark-accent, 10%);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba($dark-accent, 0.4);
+    }
+    
+    &.glow-effect {
+      box-shadow: 0 0 15px rgba($dark-accent, 0.5);
+    }
+  }
+
+  &.btn-outline {
+    background-color: transparent;
+    border: 2px solid rgba(255,255,255,0.3);
+    color: #fff;
+    
+    &:hover {
+      background-color: rgba(255,255,255,0.1);
+      border-color: #fff;
+      transform: translateY(-3px);
+    }
+    
+    &.glass-effect {
+      backdrop-filter: blur(5px);
+    }
   }
 }
 
@@ -346,6 +493,7 @@ function bookmarkHadith(hadith) {
   color: $dark-text;
   margin-bottom: $spacing-xl;
   text-align: center;
+  font-family: 'Amiri', serif;
 }
 
 .hadith-card {
@@ -356,17 +504,20 @@ function bookmarkHadith(hadith) {
   box-shadow: $shadow-md;
   margin: 0 auto;
   max-width: 800px;
+  border: 1px solid rgba($dark-accent, 0.1);
 
   .hadith-text {
-    font-size: $font-size-lg;
+    font-size: 1.5rem;
     color: $dark-text;
-    font-style: italic;
     margin-bottom: $spacing-md;
+    font-family: 'Amiri', serif;
+    line-height: 1.8;
   }
 
   .hadith-source {
     color: $dark-text-secondary;
     margin-bottom: $spacing-lg;
+    font-weight: 500;
   }
 
   .hadith-actions {
@@ -378,44 +529,68 @@ function bookmarkHadith(hadith) {
 
 .featured-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: $spacing-lg;
 }
 
 .featured-card {
   background-color: $dark-secondary;
-  border-radius: $border-radius-md;
+  border-radius: $border-radius-lg;
   overflow: hidden;
   box-shadow: $shadow-md;
   transition: transform 0.3s ease;
+  height: 100%;
 
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+  }
+
+  .card-link {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
 
   .card-image {
-    height: 180px;
+    height: 220px;
     background-size: cover;
     background-position: center;
     background-color: #333; // Fallback
+    transition: transform 0.5s ease;
+  }
+  
+  &:hover .card-image {
+    transform: scale(1.05);
   }
 
   .card-content {
-    padding: $spacing-md;
+    padding: $spacing-lg;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 
     .card-category {
-      font-size: $font-size-sm;
+      font-size: $font-size-xs;
       color: $dark-accent;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      margin-bottom: $spacing-xs;
     }
 
     .card-title {
       font-size: $font-size-lg;
       margin: $spacing-xs 0;
+      color: $dark-text;
+      font-weight: 700;
     }
 
     .card-description {
       font-size: $font-size-md;
       color: $dark-text-secondary;
+      line-height: 1.5;
     }
   }
 }
@@ -431,6 +606,7 @@ function bookmarkHadith(hadith) {
     width: 100%;
     position: relative;
     padding-bottom: $spacing-xl;
+    max-width: 900px;
   }
 
   .timeline-line {
@@ -439,7 +615,7 @@ function bookmarkHadith(hadith) {
     top: 0;
     bottom: 0;
     width: 2px;
-    background-color: $dark-accent;
+    background: linear-gradient(to bottom, $dark-accent, rgba($dark-accent, 0.1));
     transform: translateX(-50%);
   }
 
@@ -452,25 +628,42 @@ function bookmarkHadith(hadith) {
       position: absolute;
       width: 16px;
       height: 16px;
-      background-color: $dark-accent;
+      background-color: $dark-primary;
+      border: 3px solid $dark-accent;
       border-radius: 50%;
-      top: 0;
+      top: 20px;
+      z-index: 2;
+      transition: transform 0.3s ease;
+    }
+    
+    &:hover .event-dot {
+      transform: scale(1.3);
+      background-color: $dark-accent;
     }
 
     .event-card {
       background-color: $dark-secondary;
-      padding: $spacing-md;
+      padding: $spacing-lg;
       border-radius: $border-radius-md;
       box-shadow: $shadow-sm;
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        border-color: rgba($dark-accent, 0.3);
+        transform: translateY(-2px);
+      }
       
       .event-year {
         font-size: $font-size-md;
         color: $dark-accent;
+        font-weight: 700;
       }
 
       .event-title {
         font-size: $font-size-lg;
         margin: $spacing-xs 0;
+        color: $dark-text;
       }
 
       .event-description {
@@ -482,21 +675,19 @@ function bookmarkHadith(hadith) {
     &.left {
       margin-left: 0;
       margin-right: auto;
-      padding-right: 30px;
+      padding-right: 40px;
       text-align: right;
       
       .event-dot {
         right: -8px;
       }
       
-      // For RTL, left means right side visually if text-align is right? 
-      // Simplified for RTL context where left implies left side of the line.
       [dir="rtl"] & {
         text-align: left;
         margin-right: 0;
         margin-left: auto;
         padding-right: 0;
-        padding-left: 30px;
+        padding-left: 40px;
         
         .event-dot {
             right: auto;
@@ -508,7 +699,7 @@ function bookmarkHadith(hadith) {
     &.right {
       margin-left: auto;
       margin-right: 0;
-      padding-left: 30px;
+      padding-left: 40px;
       text-align: left;
       
       .event-dot {
@@ -520,7 +711,7 @@ function bookmarkHadith(hadith) {
         margin-left: 0;
         margin-right: auto;
         padding-left: 0;
-        padding-right: 30px;
+        padding-right: 40px;
         
         .event-dot {
             left: auto;
@@ -532,23 +723,39 @@ function bookmarkHadith(hadith) {
 }
 
 .cta-section {
-  background: linear-gradient(135deg, $dark-accent, darken($dark-accent, 10%));
-  padding: $spacing-xxl 0;
+  background: linear-gradient(135deg, $dark-accent, darken($dark-accent, 20%));
+  padding: 100px 0;
   text-align: center;
   color: $dark-primary;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
+  }
 
   .cta-content {
     max-width: 700px;
     margin: 0 auto;
+    position: relative;
+    z-index: 2;
 
     .cta-title {
-      font-size: $font-size-xxl;
+      font-size: 2.5rem;
       margin-bottom: $spacing-md;
+      font-weight: 800;
     }
 
     .cta-text {
       font-size: $font-size-lg;
       margin-bottom: $spacing-xl;
+      opacity: 0.9;
     }
 
     .cta-actions {
@@ -560,65 +767,54 @@ function bookmarkHadith(hadith) {
   }
 }
 
-.btn {
-  padding: 10px 24px;
-  border-radius: $border-radius-pill;
-  font-weight: 600;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all $duration-normal;
-
-  &.btn-primary {
-    background-color: $dark-accent;
-    color: $dark-primary;
-    &:hover {
-      background-color: lighten($dark-accent, 10%);
-    }
-  }
-
-  &.btn-outline {
-    background-color: transparent;
-    border: 2px solid $dark-accent;
+.btn-icon {
+  background-color: transparent;
+  border: 1px solid rgba($dark-text, 0.2);
+  color: $dark-text;
+  padding: 8px 16px;
+  font-size: $font-size-sm;
+  
+  &:hover {
+    border-color: $dark-accent;
     color: $dark-accent;
-    &:hover {
-      background-color: $dark-accent;
-      color: $dark-primary;
-    }
   }
-
-  &.btn-light {
-    background-color: $light-background;
-    color: $dark-primary;
-    &:hover {
-      background-color: darken($light-background, 10%);
-    }
+  
+  .icon {
+    width: 18px;
+    height: 18px;
   }
+}
 
-  &.btn-outline-light {
-    background-color: transparent;
-    border: 2px solid $dark-primary;
-    color: $dark-primary;
-    &:hover {
-      background-color: $dark-primary;
-      color: $light-text;
-    }
+// Light Theme Adjustments
+.theme-light {
+  .hero-title {
+    color: #fff; // Keep hero text white over image
   }
-
-  &.btn-icon {
-    background-color: transparent;
-    border: 1px solid rgba($dark-text, 0.2);
-    color: $dark-text;
-    &:hover {
-      border-color: $dark-accent;
-      color: $dark-accent;
-    }
+  
+  .hero-subtitle {
+    color: rgba(255,255,255,0.9);
+  }
+  
+  .hadith-card {
+    background-color: $light-primary;
+    border-color: $light-border;
     
-    .icon {
-      width: 18px;
-      height: 18px;
-    }
+    .hadith-text { color: $light-text; }
+    .hadith-source { color: $light-text-secondary; }
+  }
+  
+  .featured-card {
+    background-color: $light-primary;
+    
+    .card-title { color: $light-text; }
+    .card-description { color: $light-text-secondary; }
+  }
+  
+  .timeline-event .event-card {
+    background-color: $light-primary;
+    
+    .event-title { color: $light-text; }
+    .event-description { color: $light-text-secondary; }
   }
 }
 </style>
