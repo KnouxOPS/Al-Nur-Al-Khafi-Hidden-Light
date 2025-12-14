@@ -31,6 +31,7 @@ class LocalDatabase {
           const articleStore = db.createObjectStore('articles', { keyPath: 'id' });
           articleStore.createIndex('category', 'category', { unique: false });
           articleStore.createIndex('createdAt', 'createdAt', { unique: false });
+          articleStore.createIndex('status', 'status', { unique: false });
         }
 
         if (!db.objectStoreNames.contains('search_index')) {
@@ -47,12 +48,13 @@ class LocalDatabase {
 
   async saveArticle(article) {
     if (!this.db) await this.init();
-    if (!this.db) return; // Safety guard
+    if (!this.db) return;
 
     const transaction = this.db.transaction(['articles'], 'readwrite');
     const store = transaction.objectStore('articles');
     
     article.updatedAt = new Date().toISOString();
+    
     return new Promise((resolve, reject) => {
       const request = store.put(article);
       request.onsuccess = () => resolve(request.result);
@@ -60,9 +62,37 @@ class LocalDatabase {
     });
   }
 
+  async getArticle(id) {
+    if (!this.db) await this.init();
+    if (!this.db) return null;
+
+    const transaction = this.db.transaction(['articles'], 'readonly');
+    const store = transaction.objectStore('articles');
+
+    return new Promise((resolve, reject) => {
+      const request = store.get(id);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async deleteArticle(id) {
+    if (!this.db) await this.init();
+    if (!this.db) return;
+
+    const transaction = this.db.transaction(['articles'], 'readwrite');
+    const store = transaction.objectStore('articles');
+
+    return new Promise((resolve, reject) => {
+      const request = store.delete(id);
+      request.onsuccess = () => resolve(true);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
   async getAllArticles(filters = {}) {
     if (!this.db) await this.init();
-    if (!this.db) return []; // Safety guard
+    if (!this.db) return [];
 
     const transaction = this.db.transaction(['articles'], 'readonly');
     const store = transaction.objectStore('articles');
@@ -78,13 +108,27 @@ class LocalDatabase {
     return new Promise((resolve, reject) => {
       request.onsuccess = () => {
         let results = request.result || [];
+        
+        // Apply filters in memory for complex queries not supported by simple indexes
         if (filters.search) {
           const searchTerm = filters.search.toLowerCase();
           results = results.filter(article => 
             (article.title && article.title.toLowerCase().includes(searchTerm)) ||
-            (article.content && article.content.toLowerCase().includes(searchTerm))
+            (article.content && article.content.toLowerCase().includes(searchTerm)) ||
+            (article.summary && article.summary.toLowerCase().includes(searchTerm))
           );
         }
+
+        if (filters.status) {
+          results = results.filter(article => article.status === filters.status);
+        }
+
+        if (filters.tags && filters.tags.length > 0) {
+          results = results.filter(article => 
+            article.tags && article.tags.some(tag => filters.tags.includes(tag))
+          );
+        }
+
         resolve(results);
       };
       request.onerror = () => reject(request.error);
@@ -93,7 +137,7 @@ class LocalDatabase {
 
   async saveUserData(key, value) {
     if (!this.db) await this.init();
-    if (!this.db) return; // Safety guard
+    if (!this.db) return;
 
     const transaction = this.db.transaction(['user_data'], 'readwrite');
     const store = transaction.objectStore('user_data');
@@ -109,7 +153,7 @@ class LocalDatabase {
 
   async getUserData(key) {
     if (!this.db) await this.init();
-    if (!this.db) return null; // Safety guard
+    if (!this.db) return null;
 
     const transaction = this.db.transaction(['user_data'], 'readonly');
     const store = transaction.objectStore('user_data');
