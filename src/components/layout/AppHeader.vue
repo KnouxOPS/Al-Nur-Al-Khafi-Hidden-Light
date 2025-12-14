@@ -3,14 +3,14 @@
     <div class="header-container">
       <!-- Logo and Title -->
       <div class="header-logo">
-        <div class="logo-wrapper" @click="goHome">
-          <div class="logo-icon">ن</div>
+        <router-link to="/" class="logo-wrapper" :aria-label="t('app.name')">
+          <div class="logo-icon" aria-hidden="true">ن</div>
           <h1 class="app-title">{{ t('app.name') }}</h1>
-        </div>
+        </router-link>
       </div>
 
       <!-- Desktop Navigation -->
-      <nav class="nav-desktop hidden-mobile">
+      <nav class="nav-desktop hidden-mobile" :aria-label="t('nav.home')">
         <ul class="nav-list">
           <li v-for="item in navItems" :key="item.name" class="nav-item">
             <router-link 
@@ -27,8 +27,13 @@
       <!-- Header Actions -->
       <div class="header-actions">
         <!-- AI Search Button -->
-        <router-link to="/ai-search" class="action-button ai-button" :title="t('nav.aiSearch') || 'AI Search'">
-          <span>✨</span>
+        <router-link 
+          to="/ai-search" 
+          class="action-button ai-button" 
+          :title="t('nav.aiSearch') || 'AI Search'"
+          :aria-label="t('nav.aiSearch') || 'AI Search'"
+        >
+          <span aria-hidden="true">✨</span>
         </router-link>
 
         <!-- Search Button -->
@@ -36,8 +41,9 @@
           class="action-button search-button" 
           @click="toggleSearch"
           :title="t('common.search')"
+          :aria-label="t('common.search')"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
@@ -48,9 +54,10 @@
           class="action-button theme-toggle" 
           @click="toggleTheme"
           :title="currentTheme === 'dark' ? t('settings.light') : t('settings.dark')"
+          :aria-label="currentTheme === 'dark' ? t('settings.light') : t('settings.dark')"
         >
-          <span v-if="currentTheme === 'dark'">☀️</span>
-          <span v-else>🌙</span>
+          <span v-if="currentTheme === 'dark'" aria-hidden="true">☀️</span>
+          <span v-else aria-hidden="true">🌙</span>
         </button>
 
         <!-- Language Switcher -->
@@ -58,23 +65,27 @@
           class="action-button language-switcher" 
           @click="toggleLanguage"
           :title="currentLanguage === 'ar' ? 'English' : 'العربية'"
+          :aria-label="currentLanguage === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'"
         >
-          <span class="lang-code">{{ currentLanguage === 'ar' ? 'EN' : 'عربي' }}</span>
+          <span class="lang-code" aria-hidden="true">{{ currentLanguage === 'ar' ? 'EN' : 'عربي' }}</span>
         </button>
 
         <!-- Mobile Menu Button -->
         <button 
           class="action-button menu-button hidden-desktop" 
           @click="toggleMobileMenu"
+          :aria-label="mobileMenuOpen ? t('common.close') : t('common.menu')"
+          :aria-expanded="mobileMenuOpen"
+          aria-controls="mobile-nav"
         >
-          <span>{{ mobileMenuOpen ? '✕' : '☰' }}</span>
+          <span aria-hidden="true">{{ mobileMenuOpen ? '✕' : '☰' }}</span>
         </button>
       </div>
     </div>
 
     <!-- Mobile Navigation -->
     <transition name="slide">
-      <div v-if="mobileMenuOpen" class="mobile-nav hidden-desktop">
+      <div v-if="mobileMenuOpen" id="mobile-nav" class="mobile-nav hidden-desktop">
         <ul class="mobile-nav-list">
           <li v-for="item in navItems" :key="item.name" class="mobile-nav-item">
             <router-link 
@@ -218,6 +229,7 @@ onUnmounted(() => {
   align-items: center;
   gap: $spacing-sm;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .logo-icon {
@@ -268,6 +280,11 @@ onUnmounted(() => {
     color: $dark-accent;
     background: rgba($dark-accent, 0.05);
   }
+  
+  &:focus-visible {
+    outline: 2px solid $dark-accent;
+    outline-offset: 2px;
+  }
 }
 
 .header-actions {
@@ -287,6 +304,7 @@ onUnmounted(() => {
   justify-content: center;
   cursor: pointer;
   transition: all $duration-fast;
+  text-decoration: none;
   
   .theme-light & {
     border-color: rgba($light-text, 0.2);
@@ -297,6 +315,11 @@ onUnmounted(() => {
     background: rgba($dark-accent, 0.1);
     color: $dark-accent;
     border-color: $dark-accent;
+  }
+  
+  &:focus-visible {
+    outline: 2px solid $dark-accent;
+    outline-offset: 2px;
   }
 
   &.ai-button {

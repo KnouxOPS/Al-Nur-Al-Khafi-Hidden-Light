@@ -1,438 +1,624 @@
 <template>
   <div class="home-view">
     <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-background">
-        <div class="bg-image-wrapper">
-          <img 
-            src="https://images.unsplash.com/photo-1519817650390-64a93db51149?q=80&w=2574&auto=format&fit=crop" 
-            alt="Islamic Art Detail" 
-            class="bg-image"
-          />
+    <section class="hero-section">
+      <div class="parallax-sky">
+        <div class="clouds">
+          <div class="cloud cloud-sm" style="left: 12%;"></div>
+          <div class="cloud cloud-m" style="left: 18%;"></div>
+          <div class="cloud cloud-m" style="right: 15%;"></div>
+          <div class="clouds-delay" style="left: 32%;"></div>
         </div>
-        <div class="overlay"></div>
-        <div class="texture-overlay"></div>
       </div>
 
       <div class="hero-content">
-        <div class="title-wrapper">
-          <h1 class="title reveal-text">وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِّلْعَالَمِينَ</h1>
-        </div>
-        
-        <div class="ornament-container fade-in delay-1">
-          <div class="ornament-line"></div>
-          <div class="ornament-symbol">۞</div>
-          <div class="ornament-line"></div>
-        </div>
-        
-        <p class="subtitle fade-in-up delay-2">{{ $t('home.heroSubtitle') || $t('heroSubtitle') }}</p>
-        
-        <div class="hero-buttons fade-in-up delay-3">
+        <figure class="fire">
+          <div class="fire-ribbon"></div>
+        </figure>
+
+        <header>
+          <h1 class="hero-title text-elite">
+            <span>{{ t('home.project_name_part1') }}</span> {{ t('home.project_name_part2') }}
+          </h1>
+        </header>
+
+        <p class="hero-subtitle">{{ t('home.hero_subtitle') }}</p>
+
+        <div class="action-bar">
           <router-link to="/biography" class="btn btn-primary">
-            <span>{{ $t('home.startJourney') || $t('startJourney') }}</span>
+            {{ t('home.start_biography') }}
           </router-link>
-          <router-link to="/about" class="btn btn-outline">
-            <span>{{ $t('home.aboutUs') || $t('aboutUs') }}</span>
-          </router-link>
+          <button @click="beginLightJourney" class="btn btn-outline">
+            {{ t('home.explore_journey') }}
+          </button>
         </div>
       </div>
-      
-      <div class="scroll-indicator fade-in delay-4">
-        <div class="mouse">
-          <div class="wheel"></div>
+
+      <div class="logo-placeholder">
+        <svg class="q-logo-paw" viewBox="0 0 100 100">
+          <path d="M50,15 L65,35 L85,30 L75,50 L85,70 L65,65 L50,85 L35,65 L15,70 L25,50 L15,30 L35,35 Z" fill="#FFD700"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Daily Hadith -->
+    <section v-if="dailyHadith.id !== 'empty'" class="daily-hadith-section">
+      <div class="container">
+        <h2 class="section-title">{{ t('home.daily_hadith') }}</h2>
+        <div class="hadith-card">
+          <blockquote class="hadith-text">
+            "{{ dailyHadith.text }}"
+          </blockquote>
+          <footer class="hadith-source">
+            — {{ dailyHadith.reference }}
+          </footer>
+          <div class="hadith-actions">
+            <button @click="shareHadith(dailyHadith)" class="btn btn-icon">
+              <svg class="icon" viewBox="0 0 24 24" fill="none">
+                <path d="M4 12V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V12" 
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 6L12 2L8 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 2V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {{ t('common.share') }}
+            </button>
+            <button @click="bookmarkHadith(dailyHadith)" class="btn btn-icon">
+              <svg class="icon" viewBox="0 0 24 24" fill="none">
+                <path d="M19 21L12 16L5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21Z" 
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {{ t('common.bookmark') }}
+            </button>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Daily Hadith Section -->
-    <section class="daily-section container fade-in-up delay-3">
-      <DailyHadith />
+    <!-- Featured Content -->
+    <section class="featured-section">
+      <div class="container">
+        <h2 class="section-title">{{ t('home.featured_content') }}</h2>
+        <div class="featured-grid">
+          <div v-for="item in featuredContent" :key="item.id" class="featured-card">
+            <router-link :to="item.path" class="card-link">
+              <div class="card-image" :style="{ backgroundImage: `url(${item.image})` }"></div>
+              <div class="card-content">
+                <span class="card-category">{{ item.category }}</span>
+                <h3 class="card-title">{{ item.title }}</h3>
+                <p class="card-description">{{ item.description }}</p>
+              </div>
+            </router-link>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Quick Access Grid -->
-    <section class="grid-section container fade-in-up delay-4">
-      <router-link to="/biography" class="grid-card">
-        <div class="card-icon">📖</div>
-        <h3>{{ $t('nav.biography') || $t('biography') }}</h3>
-        <p>{{ $t('home.biographyDesc') || $t('biographyDesc') }}</p>
-      </router-link>
-      
-      <router-link to="/battles" class="grid-card">
-        <div class="card-icon">⚔️</div>
-        <h3>{{ $t('nav.battles') || $t('battles') }}</h3>
-        <p>{{ $t('home.battlesDesc') || $t('battlesDesc') }}</p>
-      </router-link>
-      
-      <router-link to="/companions" class="grid-card">
-        <div class="card-icon">👥</div>
-        <h3>{{ $t('nav.companions') || $t('companions') }}</h3>
-        <p>{{ $t('home.companionsDesc') || $t('companionsDesc') }}</p>
-      </router-link>
+    <!-- Timeline Preview -->
+    <section class="timeline-section">
+      <div class="container">
+        <h2 class="section-title">{{ t('home.timeline_preview') }}</h2>
+        <div class="timeline-preview">
+          <div class="timeline-container">
+            <div class="timeline-line"></div>
+            <div v-for="(event, index) in timelineEvents" :key="index" 
+                 :class="['timeline-event', { 'left': index % 2 === 0, 'right': index % 2 !== 0 }]">
+              <div class="event-dot"></div>
+              <div class="event-card">
+                <h4 class="event-year">{{ event.year }}</h4>
+                <h3 class="event-title">{{ event.title }}</h3>
+                <p class="event-description">{{ event.description }}</p>
+              </div>
+            </div>
+          </div>
+          <router-link to="/timeline" class="btn btn-primary">
+            {{ t('home.view_full_timeline') }}
+          </router-link>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2 class="cta-title">{{ t('home.cta_title') }}</h2>
+          <p class="cta-text">{{ t('home.cta_text') }}</p>
+          <div class="cta-actions">
+            <router-link to="/about" class="btn btn-light">
+              {{ t('nav.about') }}
+            </router-link>
+            <router-link to="/contribute" class="btn btn-outline-light">
+              {{ t('home.contribute') }}
+            </router-link>
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 </template>
 
 <script setup>
-import DailyHadith from '@/components/widgets/DailyHadith.vue';
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useMainStore } from '@/store'; // Corrected from useStore to useMainStore
 
-// Parallax effect on mouse move
-onMounted(() => {
-  const hero = document.querySelector('.hero');
-  const bgImage = document.querySelector('.bg-image');
-  
-  if (hero && bgImage) {
-    hero.addEventListener('mousemove', (e) => {
-      const x = (e.clientX / window.innerWidth) * 2 - 1;
-      const y = (e.clientY / window.innerHeight) * 2 - 1;
-      
-      bgImage.style.transform = `scale(1.1) translate(${x * 10}px, ${y * 10}px)`;
-    });
-  }
+const { t } = useI18n();
+const store = useMainStore();
+
+// Mock data - replace with store or API later
+const dailyHadith = ref({
+  id: 1,
+  text: 'إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى.',
+  reference: 'رواه البخاري ومسلم'
 });
+
+const featuredContent = ref([
+  {
+    id: 1,
+    title: t('home.feature_1_title'),
+    description: t('home.feature_1_desc'),
+    category: t('home.category_battles'),
+    path: '/battles/badr',
+    image: '/images/badr-battle.jpg'
+  },
+  {
+    id: 2,
+    title: t('home.feature_2_title'),
+    description: t('home.feature_2_desc'),
+    category: t('home.category_sirah'),
+    path: '/biography/ethics',
+    image: '/images/prophet-ethics.jpg'
+  }
+]);
+
+const timelineEvents = ref([
+  {
+    year: '571 م',
+    title: t('home.event_birth'),
+    description: t('home.event_birth_desc')
+  },
+  {
+    year: '610 م',
+    title: t('home.event_revelation'),
+    description: t('home.event_revelation_desc')
+  },
+  {
+    year: '622 م',
+    title: t('home.event_hijrah'),
+    description: t('home.event_hijrah_desc')
+  },
+  {
+    year: '632 م',
+    title: t('home.event_death'),
+    description: t('home.event_death_desc')
+  }
+]);
+
+function beginLightJourney() {
+  alert(t('home.journey_started'));
+}
+
+function shareHadith(hadith) {
+  if (navigator.share) {
+    navigator.share({
+      title: t('home.daily_hadith'),
+      text: `${hadith.text} — ${hadith.reference}`,
+      url: window.location.href
+    });
+  } else {
+    navigator.clipboard.writeText(`${hadith.text} — ${hadith.reference}`);
+    alert(t('common.copied_to_clipboard'));
+  }
+}
+
+function bookmarkHadith(hadith) {
+  console.log("Bookmarked:", hadith);
+}
 </script>
 
 <style lang="scss" scoped>
 @import '@/assets/styles/variables';
 
 .home-view {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-xxl;
-  padding-bottom: $spacing-xxl;
+  padding-bottom: $spacing-xl;
 }
 
-.hero {
-  height: 95vh;
+.hero-section {
   position: relative;
+  height: 80vh;
+  min-height: 600px;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
   overflow: hidden;
-  margin-top: -$header-height; // Full screen feel
-  padding-top: $header-height;
-}
+  background: linear-gradient(to bottom, rgba($dark-primary, 0.9), rgba($dark-secondary, 0.7));
 
-.hero-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  
-  .bg-image-wrapper {
+  .parallax-sky {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    background: radial-gradient(circle, #0f2027, #203a43, #2c5364);
+    z-index: -1;
   }
-  
-  .bg-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transform: scale(1.1);
-    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    // Fallback animation if JS fails or for mobile
-    @media (hover: none) {
-      animation: breathe 20s infinite alternate ease-in-out;
+
+  .cloud {
+    position: absolute;
+    width: 100px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    filter: blur(10px);
+  }
+
+  .cloud-sm {
+    width: 60px;
+    height: 30px;
+  }
+
+  .cloud-m {
+    width: 100px;
+    height: 40px;
+  }
+
+  .clouds-delay {
+    animation: float 10s infinite ease-in-out;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .fire {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -70%);
+    width: 80px;
+    height: 80px;
+    opacity: 0.7;
+
+    .fire-ribbon {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, #ff512f, #dd2476);
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     }
-  }
-  
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, rgba($dark-background, 0.4) 0%, rgba($dark-background, 0.85) 90%);
-    mix-blend-mode: multiply;
-  }
-  
-  .texture-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-    opacity: 0.4;
-    pointer-events: none;
   }
 }
 
 .hero-content {
-  position: relative;
+  text-align: center;
   z-index: 2;
-  max-width: 1000px;
+  max-width: 800px;
   padding: 0 $spacing-md;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
-.title-wrapper {
-  overflow: hidden;
-  margin-bottom: $spacing-md;
-}
+  .hero-title {
+    font-size: $font-size-xxxl;
+    color: $dark-text;
+    margin-bottom: $spacing-md;
+    line-height: 1.2;
+    span {
+      color: $dark-accent;
+    }
+  }
 
-.title {
-  font-family: 'Amiri', serif;
-  font-size: 4rem;
-  line-height: 1.4;
-  background: linear-gradient(180deg, #FFD700 0%, #B8860B 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: $dark-accent;
-  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  margin: 0;
-  padding: 0 10px; // Prevent clipping of calligraphic ends
-  
-  @media (max-width: $breakpoint-mobile) {
-    font-size: 2.5rem;
+  .hero-subtitle {
+    font-size: $font-size-xl;
+    color: $dark-text-secondary;
+    margin-bottom: $spacing-xl;
+    line-height: 1.6;
+  }
+
+  .action-bar {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-md;
+    flex-wrap: wrap;
   }
 }
 
-.ornament-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: $spacing-md;
-  margin-bottom: $spacing-lg;
-  opacity: 0.8;
-  width: 100%;
-  max-width: 400px;
-}
-
-.ornament-line {
-  height: 1px;
-  flex: 1;
-  background: linear-gradient(90deg, transparent, $dark-accent, transparent);
-}
-
-.ornament-symbol {
-  color: $dark-accent;
-  font-size: 1.5rem;
-  text-shadow: 0 0 10px rgba($dark-accent, 0.5);
-}
-
-.subtitle {
-  font-size: 1.25rem;
-  color: #e2e8f0;
-  margin-bottom: $spacing-xl;
-  font-weight: 300;
-  letter-spacing: 0.5px;
-  max-width: 700px;
-  line-height: 1.6;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-}
-
-.hero-buttons {
-  display: flex;
-  gap: $spacing-md;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.btn {
-  padding: $spacing-md $spacing-xl;
-  border-radius: $border-radius-pill;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  display: inline-flex;
-  align-items: center;
-  gap: $spacing-sm;
-  backdrop-filter: blur(8px);
-  position: relative;
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
+.logo-placeholder {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  opacity: 0.4;
+  .q-logo-paw {
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s;
-  }
-  
-  &:hover::before {
-    left: 100%;
-  }
-
-  &.btn-primary {
-    background: linear-gradient(135deg, $dark-accent 0%, darken($dark-accent, 20%) 100%);
-    color: $dark-primary;
-    box-shadow: 0 4px 20px rgba($dark-accent, 0.4);
-    border: 1px solid rgba(255,215,0, 0.3);
-    
-    &:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 30px rgba($dark-accent, 0.6);
-    }
-  }
-  
-  &.btn-outline {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: #fff;
-    
-    &:hover {
-      background: rgba(255,255,255,0.15);
-      border-color: rgba(255,255,255,0.5);
-      transform: translateY(-3px);
-    }
   }
 }
 
-.scroll-indicator {
-  position: absolute;
-  bottom: $spacing-xl;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: $spacing-xs;
-  
-  .mouse {
-    width: 26px;
-    height: 40px;
-    border: 2px solid rgba(255,255,255,0.4);
-    border-radius: 20px;
-    position: relative;
-    
-    .wheel {
-      width: 4px;
-      height: 6px;
-      background: $dark-accent;
-      border-radius: 2px;
-      position: absolute;
-      top: 6px;
-      left: 50%;
-      transform: translateX(-50%);
-      animation: wheel-scroll 1.5s infinite;
-    }
+.container {
+  width: 100%;
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+}
+
+.section-title {
+  font-size: $font-size-xxl;
+  color: $dark-text;
+  margin-bottom: $spacing-xl;
+  text-align: center;
+}
+
+.hadith-card {
+  background-color: $dark-secondary;
+  border-radius: $border-radius-lg;
+  padding: $spacing-xl;
+  text-align: center;
+  box-shadow: $shadow-md;
+  margin: 0 auto;
+  max-width: 800px;
+
+  .hadith-text {
+    font-size: $font-size-lg;
+    color: $dark-text;
+    font-style: italic;
+    margin-bottom: $spacing-md;
+  }
+
+  .hadith-source {
+    color: $dark-text-secondary;
+    margin-bottom: $spacing-lg;
+  }
+
+  .hadith-actions {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-md;
   }
 }
 
-// Animations
-@keyframes breathe {
-  0% { transform: scale(1.1); }
-  100% { transform: scale(1.15); }
-}
-
-@keyframes wheel-scroll {
-  0% { transform: translateX(-50%) translateY(0); opacity: 1; }
-  100% { transform: translateX(-50%) translateY(10px); opacity: 0; }
-}
-
-.reveal-text {
-  animation: revealUp 1.2s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
-  opacity: 0;
-  transform: translateY(50px);
-}
-
-.fade-in {
-  animation: fadeIn 1.2s ease-out forwards;
-  opacity: 0;
-}
-
-.fade-in-up {
-  animation: fadeInUp 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-.delay-1 { animation-delay: 0.3s; }
-.delay-2 { animation-delay: 0.6s; }
-.delay-3 { animation-delay: 0.9s; }
-.delay-4 { animation-delay: 1.5s; }
-
-@keyframes revealUp {
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-  to { opacity: 1; }
-}
-
-@keyframes fadeInUp {
-  to { opacity: 1; transform: translateY(0); }
-}
-
-// Other Sections
-.grid-section {
+.featured-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: $spacing-lg;
-  position: relative;
-  z-index: 1;
 }
 
-.grid-card {
-  background: rgba($dark-secondary, 0.3);
-  padding: $spacing-xl;
-  border-radius: $border-radius-lg;
-  text-align: center;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  border: 1px solid rgba($dark-accent, 0.1);
-  text-decoration: none;
-  backdrop-filter: blur(10px);
-  position: relative;
+.featured-card {
+  background-color: $dark-secondary;
+  border-radius: $border-radius-md;
   overflow: hidden;
-  
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: $dark-accent;
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 0.4s ease;
-  }
-  
+  box-shadow: $shadow-md;
+  transition: transform 0.3s ease;
+
   &:hover {
-    transform: translateY(-8px);
-    border-color: rgba($dark-accent, 0.3);
-    background: rgba($dark-secondary, 0.6);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-    
-    &::after {
-      transform: scaleX(1);
+    transform: translateY(-5px);
+  }
+
+  .card-image {
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+    background-color: #333; // Fallback
+  }
+
+  .card-content {
+    padding: $spacing-md;
+
+    .card-category {
+      font-size: $font-size-sm;
+      color: $dark-accent;
     }
-    
-    .card-icon {
-      transform: scale(1.1) rotate(5deg);
+
+    .card-title {
+      font-size: $font-size-lg;
+      margin: $spacing-xs 0;
+    }
+
+    .card-description {
+      font-size: $font-size-md;
+      color: $dark-text-secondary;
     }
   }
-  
-  .card-icon {
-    font-size: 3.5rem;
-    margin-bottom: $spacing-lg;
-    display: inline-block;
-    transition: transform 0.4s ease;
-    filter: drop-shadow(0 0 15px rgba($dark-accent, 0.3));
+}
+
+.timeline-preview {
+  position: relative;
+  padding: $spacing-xl 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .timeline-container {
+    width: 100%;
+    position: relative;
+    padding-bottom: $spacing-xl;
   }
-  
-  h3 {
+
+  .timeline-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: $dark-accent;
+    transform: translateX(-50%);
+  }
+
+  .timeline-event {
+    position: relative;
+    margin-bottom: $spacing-xl;
+    width: 50%;
+
+    .event-dot {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background-color: $dark-accent;
+      border-radius: 50%;
+      top: 0;
+    }
+
+    .event-card {
+      background-color: $dark-secondary;
+      padding: $spacing-md;
+      border-radius: $border-radius-md;
+      box-shadow: $shadow-sm;
+      
+      .event-year {
+        font-size: $font-size-md;
+        color: $dark-accent;
+      }
+
+      .event-title {
+        font-size: $font-size-lg;
+        margin: $spacing-xs 0;
+      }
+
+      .event-description {
+        font-size: $font-size-sm;
+        color: $dark-text-secondary;
+      }
+    }
+
+    &.left {
+      margin-left: 0;
+      margin-right: auto;
+      padding-right: 30px;
+      text-align: right;
+      
+      .event-dot {
+        right: -8px;
+      }
+      
+      // For RTL, left means right side visually if text-align is right? 
+      // Simplified for RTL context where left implies left side of the line.
+      [dir="rtl"] & {
+        text-align: left;
+        margin-right: 0;
+        margin-left: auto;
+        padding-right: 0;
+        padding-left: 30px;
+        
+        .event-dot {
+            right: auto;
+            left: -8px;
+        }
+      }
+    }
+
+    &.right {
+      margin-left: auto;
+      margin-right: 0;
+      padding-left: 30px;
+      text-align: left;
+      
+      .event-dot {
+        left: -8px;
+      }
+
+      [dir="rtl"] & {
+        text-align: right;
+        margin-left: 0;
+        margin-right: auto;
+        padding-left: 0;
+        padding-right: 30px;
+        
+        .event-dot {
+            left: auto;
+            right: -8px;
+        }
+      }
+    }
+  }
+}
+
+.cta-section {
+  background: linear-gradient(135deg, $dark-accent, darken($dark-accent, 10%));
+  padding: $spacing-xxl 0;
+  text-align: center;
+  color: $dark-primary;
+
+  .cta-content {
+    max-width: 700px;
+    margin: 0 auto;
+
+    .cta-title {
+      font-size: $font-size-xxl;
+      margin-bottom: $spacing-md;
+    }
+
+    .cta-text {
+      font-size: $font-size-lg;
+      margin-bottom: $spacing-xl;
+    }
+
+    .cta-actions {
+      display: flex;
+      justify-content: center;
+      gap: $spacing-md;
+      flex-wrap: wrap;
+    }
+  }
+}
+
+.btn {
+  padding: 10px 24px;
+  border-radius: $border-radius-pill;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all $duration-normal;
+
+  &.btn-primary {
+    background-color: $dark-accent;
+    color: $dark-primary;
+    &:hover {
+      background-color: lighten($dark-accent, 10%);
+    }
+  }
+
+  &.btn-outline {
+    background-color: transparent;
+    border: 2px solid $dark-accent;
     color: $dark-accent;
-    margin-bottom: $spacing-xs;
-    font-size: 1.4rem;
-    font-weight: 700;
+    &:hover {
+      background-color: $dark-accent;
+      color: $dark-primary;
+    }
   }
-  
-  p {
-    font-size: 1rem;
-    color: $dark-text-secondary;
-    line-height: 1.6;
+
+  &.btn-light {
+    background-color: $light-background;
+    color: $dark-primary;
+    &:hover {
+      background-color: darken($light-background, 10%);
+    }
+  }
+
+  &.btn-outline-light {
+    background-color: transparent;
+    border: 2px solid $dark-primary;
+    color: $dark-primary;
+    &:hover {
+      background-color: $dark-primary;
+      color: $light-text;
+    }
+  }
+
+  &.btn-icon {
+    background-color: transparent;
+    border: 1px solid rgba($dark-text, 0.2);
+    color: $dark-text;
+    &:hover {
+      border-color: $dark-accent;
+      color: $dark-accent;
+    }
+    
+    .icon {
+      width: 18px;
+      height: 18px;
+    }
   }
 }
 </style>

@@ -1,47 +1,41 @@
 <template>
-  <div class="about-view container">
-    <header class="section-header fade-in-up">
-      <h1 class="page-title">{{ t('about.title') }}</h1>
-      <p class="page-subtitle">{{ t('app.description') }}</p>
-    </header>
+  <div class="about-view">
+    <section class="hero-section">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1>{{ t('nav.about') }}</h1>
+        <p>{{ t('about.subtitle') }}</p>
+      </div>
+    </section>
 
-    <div class="content-wrapper fade-in-up delay-1">
-      <div class="content-block">
-        <h3>{{ t('about.mission') }}</h3>
-        <p>To create a sacred digital sanctuary that honors the blessed life of our Prophet Muhammad ﷺ with utmost dignity, academic rigor, and spiritual reverence.</p>
-        <p>نهدف إلى إنشاء ملاذ رقمي مقدس يكرم الحياة المباركة لنبينا محمد ﷺ بمنتهى الوقار والدقة العلمية والروحانية.</p>
-      </div>
+    <section class="content-section">
+      <div class="container">
+        <div class="mission-section">
+          <h2>{{ t('about.mission_title') }}</h2>
+          <p>{{ t('about.mission_desc') }}</p>
+        </div>
 
-      <div class="content-block">
-        <h3>{{ t('about.vision') }}</h3>
-        <p>Bridging hearts with the light of the Prophet ﷺ through modern technology and authentic knowledge.</p>
-        <p>مد جسور بين القلوب ونور النبي ﷺ من خلال التكنولوجيا الحديثة والمعرفة الموثقة.</p>
-      </div>
+        <div class="features-section">
+          <h2>{{ t('about.features_title') }}</h2>
+          <div class="features-grid">
+            <div class="feature-card" v-for="feature in features" :key="feature.title">
+              <div class="feature-icon">
+                <i :class="feature.icon"></i>
+              </div>
+              <h3>{{ feature.title }}</h3>
+              <p>{{ feature.description }}</p>
+            </div>
+          </div>
+        </div>
 
-      <div class="features-grid">
-        <div class="feature-item">
-          <div class="feature-icon">📚</div>
-          <h4>Authentic Sources</h4>
-          <p>Verified from Quran and Sahih Hadith.</p>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">✨</div>
-          <h4>Sacred Design</h4>
-          <p>Respectful aesthetics and user experience.</p>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">🤖</div>
-          <h4>AI Powered</h4>
-          <p>Intelligent search for spiritual guidance.</p>
+        <div class="message-section">
+          <blockquote>
+            "{{ t('about.quote') }}"
+          </blockquote>
+          <cite>- {{ t('about.quote_author') }}</cite>
         </div>
       </div>
-      
-      <div class="support-block">
-         <h3>{{ t('about.support') }}</h3>
-         <p>{{ t('about.donate') }}</p>
-         <button class="btn btn-primary">{{ t('common.subscribe') }}</button>
-      </div>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -49,163 +43,141 @@
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
+
+const features = [
+  {
+    icon: 'fas fa-book',
+    title: t('about.feature_sirah'),
+    description: t('about.feature_sirah_desc')
+  },
+  {
+    icon: 'fas fa-comment',
+    title: t('about.feature_hadith'),
+    description: t('about.feature_hadith_desc')
+  },
+  {
+    icon: 'fas fa-globe',
+    title: t('about.feature_multilingual'),
+    description: t('about.feature_multilingual_desc')
+  },
+  {
+    icon: 'fas fa-brain',
+    title: t('about.feature_ai'),
+    description: t('about.feature_ai_desc')
+  }
+];
 </script>
 
 <style lang="scss" scoped>
 @import '@/assets/styles/variables';
 
 .about-view {
-  padding-bottom: $spacing-xxl;
-}
+  .hero-section {
+    position: relative;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(rgba($dark-primary, 0.8), rgba($dark-secondary, 0.8)), 
+                url('/images/about-hero.jpg');
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    color: white;
 
-.section-header {
-  text-align: center;
-  margin-bottom: $spacing-xxl;
-}
+    .hero-content h1 {
+      font-size: $font-size-xxxl;
+      margin-bottom: $spacing-md;
+    }
 
-.page-title {
-  font-family: 'Amiri', serif;
-  font-size: 2.5rem;
-  color: $dark-accent;
-  margin-bottom: $spacing-xs;
-  
-  .theme-light & {
-    color: $light-text;
-  }
-}
-
-.page-subtitle {
-  color: $dark-text-secondary;
-  font-size: 1.1rem;
-  
-  .theme-light & {
-    color: $light-text-secondary;
-  }
-}
-
-.content-wrapper {
-  max-width: 800px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-xl;
-}
-
-.content-block {
-  background: rgba($dark-secondary, 0.3);
-  padding: $spacing-xl;
-  border-radius: $border-radius-lg;
-  border: 1px solid rgba($dark-border, 0.5);
-  
-  .theme-light & {
-    background: rgba($light-secondary, 0.3);
-    border-color: rgba($light-border, 0.5);
-  }
-
-  h3 {
-    color: $dark-accent;
-    font-size: 1.5rem;
-    margin-top: 0;
-    margin-bottom: $spacing-md;
-    font-family: 'Amiri', serif;
-  }
-
-  p {
-    line-height: 1.8;
-    color: $dark-text;
-    margin-bottom: $spacing-sm;
-    
-    .theme-light & {
-      color: $light-text;
+    .hero-content p {
+      font-size: $font-size-lg;
+      max-width: 600px;
+      margin: 0 auto;
     }
   }
-}
 
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: $spacing-lg;
-  margin: $spacing-lg 0;
-}
+  .content-section {
+    padding: $spacing-xxl 0;
 
-.feature-item {
-  text-align: center;
-  padding: $spacing-lg;
-  background: rgba($dark-primary, 0.5);
-  border-radius: $border-radius-lg;
-  border: 1px solid rgba($dark-accent, 0.1);
-  
-  .theme-light & {
-    background: rgba($light-primary, 0.5);
-    border-color: rgba($light-accent, 0.1);
-  }
+    .mission-section,
+    .features-section,
+    .message-section {
+      max-width: 800px;
+      margin: 0 auto $spacing-xxl;
 
-  .feature-icon {
-    font-size: 2.5rem;
-    margin-bottom: $spacing-md;
-  }
+      h2 {
+        font-size: $font-size-xxl;
+        color: $dark-text;
+        margin-bottom: $spacing-md;
+        text-align: center;
+      }
 
-  h4 {
-    color: $dark-text;
-    margin-bottom: $spacing-xs;
-    .theme-light & { color: $light-text; }
-  }
+      p {
+        font-size: $font-size-lg;
+        color: $dark-text-secondary;
+        line-height: 1.6;
+        text-align: center;
+      }
+    }
 
-  p {
-    font-size: 0.9rem;
-    color: $dark-text-secondary;
-    .theme-light & { color: $light-text-secondary; }
-  }
-}
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: $spacing-lg;
+      margin-top: $spacing-xl;
 
-.support-block {
-  text-align: center;
-  padding: $spacing-xl;
-  background: linear-gradient(135deg, rgba($dark-accent, 0.1), transparent);
-  border-radius: $border-radius-lg;
-  border: 1px solid rgba($dark-accent, 0.2);
-  
-  h3 {
-    color: $dark-accent;
-    font-family: 'Amiri', serif;
-    margin-bottom: $spacing-md;
-  }
-  
-  p {
-    margin-bottom: $spacing-lg;
-    color: $dark-text;
-    .theme-light & { color: $light-text; }
-  }
-}
+      .feature-card {
+        text-align: center;
+        padding: $spacing-lg;
+        background-color: $dark-secondary;
+        border-radius: $border-radius-md;
+        box-shadow: $shadow-sm;
 
-.btn {
-  padding: 10px 24px;
-  border-radius: $border-radius-pill;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  
-  &.btn-primary {
-    background: $dark-accent;
-    color: $dark-primary;
-    
-    &:hover {
-      background: lighten($dark-accent, 10%);
-      transform: translateY(-2px);
+        .feature-icon {
+          font-size: $font-size-xxxl;
+          color: $dark-accent;
+          margin-bottom: $spacing-md;
+        }
+
+        h3 {
+          font-size: $font-size-lg;
+          color: $dark-text;
+          margin-bottom: $spacing-sm;
+        }
+
+        p {
+          font-size: $font-size-md;
+          color: $dark-text-secondary;
+          text-align: center;
+        }
+      }
+    }
+
+    .message-section {
+      blockquote {
+        font-size: $font-size-xl;
+        font-style: italic;
+        color: $dark-text;
+        text-align: center;
+        margin-bottom: $spacing-md;
+        position: relative;
+
+        &::before,
+        &::after {
+          content: '"';
+          font-size: $font-size-xxxl;
+          color: $dark-accent;
+        }
+      }
+
+      cite {
+        display: block;
+        text-align: center;
+        color: $dark-text-secondary;
+        font-size: $font-size-md;
+      }
     }
   }
-}
-
-.fade-in-up {
-  animation: fadeInUp 0.8s ease-out forwards;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.delay-1 { animation-delay: 0.2s; }
-
-@keyframes fadeInUp {
-  to { opacity: 1; transform: translateY(0); }
 }
 </style>

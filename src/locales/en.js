@@ -1,173 +1,197 @@
 export default {
-  // General
-  app: {
-    name: 'Hidden Light',
-    description: 'Revealing the Light of Prophet Muhammad ﷺ to the World',
-    welcome: 'Welcome to Hidden Light'
-  },
-
-  // Navigation
-  nav: {
-    home: 'Home',
-    biography: 'Biography',
-    hadith: 'Hadith',
-    companions: 'Companions',
-    battles: 'Battles',
-    wisdom: 'Wisdom',
-    about: 'About',
-    search: 'Search',
-    settings: 'Settings',
-    exploreSections: 'Explore Sections'
-  },
-
-  // Home Page
-  home: {
-    dailyHadith: 'Daily Hadith',
-    featuredContent: 'Featured Content',
-    continueReading: 'Continue Reading',
-    latestUpdates: 'Latest Updates',
-    heroSubtitle: 'Discover the Hidden Light in the life of Prophet Muhammad ﷺ',
-    startJourney: 'Start Journey',
-    aboutUs: 'About Us',
-    biography: 'The Biography',
-    biographyDesc: 'Trace the timeline of the Prophet\'s life',
-    battles: 'Battles',
-    battlesDesc: 'Lessons from military history',
-    companions: 'Companions',
-    companionsDesc: 'Men and women around the Prophet'
-  },
-
-  // Biography
-  biography: {
-    title: 'Prophetic Biography',
-    subtitle: 'Illuminated milestones in the life of the Best of Creation ﷺ',
-    beforeBirth: 'Before Birth',
-    childhood: 'Childhood',
-    preProphethood: 'Pre-Prophethood',
-    earlyRevelation: 'Early Revelation',
-    migration: 'Migration',
-    medinaPeriod: 'Medina Period',
-    finalYears: 'Final Years',
-    legacy: 'Eternal Legacy'
-  },
-
-  // Hadith
-  hadith: {
-    title: 'Hadith & Wisdom',
-    subtitle: 'Pearls from the words of the Messenger ﷺ',
-    daily: 'Daily Hadith',
-    collections: 'Hadith Collections',
-    topics: 'Topics',
-    search: 'Search Hadith',
-    source: 'Source',
-    grade: 'Authenticity Grade'
-  },
-
-  // Companions
-  companions: {
-    title: 'Companions',
-    subtitle: 'Stars around the Prophet ﷺ who were guided by his light',
-    muhajirun: 'Muhajirun',
-    ansar: 'Ansar',
-    women: 'Women Companions',
-    relationships: 'Relationships'
-  },
-
-  // Battles
-  battles: {
-    title: 'Battles & Campaigns',
-    subtitle: 'Lessons in defense of Truth and Ethics',
-    chronological: 'Chronological',
-    geographical: 'Geographical',
-    lessons: 'Lessons Learned',
-    map: 'Map',
-    viewDetails: 'View Details'
-  },
-
-  // Wisdom
-  wisdom: {
-    title: 'Wisdom & Quotes',
-    subtitle: 'Luminous insights from the Prophetic niche',
-    dailyQuote: 'Daily Quote',
-    ethics: 'Ethics',
-    family: 'Family',
-    society: 'Society',
-    worship: 'Worship'
-  },
-
-  // Settings
-  settings: {
-    title: 'Settings',
-    theme: 'Theme',
-    language: 'Language',
-    notifications: 'Notifications',
-    audio: 'Audio',
-    accessibility: 'Accessibility',
-    dark: 'Dark',
-    light: 'Light',
-    arabic: 'Arabic',
-    english: 'English'
-  },
-
-  // Common
   common: {
-    loading: 'Loading...',
-    error: 'An error occurred, please try again later',
-    retry: 'Retry',
-    back: 'Back',
-    next: 'Next',
-    previous: 'Previous',
-    save: 'Save',
-    cancel: 'Cancel',
-    share: 'Share',
-    copy: 'Copy',
-    copied: 'Copied',
-    search: 'Search',
-    filter: 'Filter',
-    sort: 'Sort',
-    readMore: 'Read More',
-    viewAll: 'View All',
-    close: 'Close',
-    menu: 'Menu',
-    email: 'Email',
-    subscribe: 'Subscribe',
-    madeWithLove: 'Made with love and excellence',
-    backToTop: 'Back to Top'
+    loading: "Loading...",
+    share: "Share",
+    bookmark: "Bookmark",
+    bookmarked: "Bookmarked",
+    copied_to_clipboard: "Copied to clipboard!",
+    close: "Close",
+    search: "Search",
+    viewAll: "View All",
+    error: "Error",
+    previous: "Previous",
+    next: "Next",
+    subscribe: "Subscribe",
+    copied: "Copied",
+    menu: "Menu",
+    toggle_theme: "Toggle Theme",
+    follow_us: "Follow Us"
   },
-
-  // Audio Player
-  audio: {
-    play: 'Play',
-    pause: 'Pause',
-    stop: 'Stop',
-    mute: 'Mute',
-    unmute: 'Unmute',
-    volume: 'Volume',
-    speed: 'Speed',
-    currentTime: 'Current Time',
-    duration: 'Duration'
+  nav: {
+    home: "Home",
+    biography: "Biography",
+    hadith: "Hadith",
+    timeline: "Timeline",
+    about: "About",
+    contribute: "Contribute",
+    companions: "Companions",
+    battles: "Battles",
+    wisdom: "Wisdom",
+    aiSearch: "AI Guide",
+    search: "Search",
+    exploreSections: "Explore Sections"
   },
-
-  // Footer
-  footer: {
-    copyright: 'Copyright © 2024 Hidden Light',
-    privacy: 'Privacy Policy',
-    terms: 'Terms of Service',
-    contact: 'Contact Us',
-    prayer: 'O Allah, send peace and blessings upon our Prophet Muhammad'
+  home: {
+    project_name_part1: "Hidden",
+    project_name_part2: "Light",
+    hero_subtitle: "A timeless digital journey through the life and message of Prophet Muhammad ﷺ",
+    start_biography: "Explore His Biography",
+    explore_journey: "Begin the Journey",
+    daily_hadith: "Daily Hadith",
+    featured_content: "Featured Content",
+    category_battles: "Battles",
+    category_sirah: "Sirah",
+    feature_1_title: "Battle of Badr",
+    feature_1_desc: "The first decisive battle in Islam and the turning point of power dynamics",
+    feature_2_title: "Prophetic Ethics",
+    feature_2_desc: "Discover the noble ethics that made him a role model for humanity",
+    timeline_preview: "Message Through Time",
+    view_full_timeline: "View Full Timeline",
+    cta_title: "Help Spread the Light",
+    cta_text: "Join us in delivering the message of the Prophet ﷺ worldwide",
+    contribute: "Contribute Now",
+    event_birth: "Birth of Prophet Muhammad ﷺ",
+    event_birth_desc: "Born in Makkah Al-Mukarramah during the Year of the Elephant",
+    event_revelation: "Beginning of Revelation",
+    event_revelation_desc: "First verses of the Quran revealed to the Prophet in Cave Hira'",
+    event_hijrah: "Migration to Madinah",
+    event_hijrah_desc: "The Prophet's migration with his companions from Makkah to Madinah",
+    event_death: "Death of the Prophet ﷺ",
+    event_death_desc: "The Prophet passed away in Madinah at the age of 63",
+    journey_started: "Your journey towards light has begun!"
   },
-
-  // About
+  search: {
+    placeholder: "Search Sirah & Hadith...",
+    clear: "Clear Search",
+    recent: "Recent Searches",
+    popular: "Popular Searches",
+    no_results: "No Results Found",
+    try_again: "Try different keywords",
+    ai_results: "Smart Results",
+    confidence: "Confidence",
+    relevance: "Relevance"
+  },
+  content: {
+    biography: "Biography",
+    hadith: "Hadith",
+    companion: "Companion",
+    battle: "Battle",
+    wisdom: "Wisdom",
+    general: "General"
+  },
+  biography: {
+    title: "Prophetic Biography",
+    subtitle: "Illuminated milestones in the life of the Best of Creation ﷺ",
+    period_birth: "Pre-Prophethood",
+    period_youth: "Youth",
+    period_prophethood: "Prophethood",
+    period_migration: "Migration",
+    period_medina: "In Madinah",
+    period_death: "Death",
+    birth_title: "Before Prophethood",
+    birth_description: "Events preceding the prophetic mission of Muhammad ﷺ",
+    event_birth_year: "Birth of the Prophet ﷺ",
+    event_birth_year_desc: "Prophet Muhammad ibn Abdullah was born in Makkah Al-Mukarramah during the Year of the Elephant",
+    event_father_death: "Father's Death",
+    event_father_death_desc: "Abdullah ibn Abd al-Muttalib passed away months before the Prophet's birth",
+    youth_title: "Youth Period",
+    youth_description: "Years of youth and character building",
+    event_shepherd: "Shepherding & Trade",
+    event_shepherd_desc: "The Prophet ﷺ worked as a shepherd then in trade with Lady Khadijah bint Khuwaylid",
+    prophethood_title: "Prophetic Mission",
+    prophethood_description: "Beginning of revelation and calling people to Islam",
+    event_first_revelation: "First Revelation",
+    event_first_revelation_desc: "The first verses descended upon the Prophet ﷺ in Cave Hira'",
+    migration_title: "Prophetic Migration",
+    migration_description: "Migration of Muslims from Makkah to Madinah",
+    event_hijrah: "Migration to Madinah",
+    event_hijrah_desc: "The Prophet's migration with his companions from Makkah Al-Mukarramah to Madinah Al-Munawwarah",
+    medina_title: "Life in Madinah",
+    medina_description: "Building the first Islamic community",
+    event_constitution: "Constitution of Madinah",
+    event_constitution_desc: "The first Islamic constitution organizing relations between Muslims and non-Muslims",
+    death_title: "Death and Farewell",
+    death_description: "The final sermon and blessed departure",
+    event_farewell: "Farewell Sermon",
+    event_farewell_desc: "The Prophet's ﷺ final sermon during Hajjatul Wida' in Makkah Al-Mukarramah"
+  },
+  timeline: {
+    subtitle: "The Message Through Time",
+    event_birth: "Birth of Prophet Muhammad ﷺ",
+    event_birth_desc: "Born in Makkah Al-Mukarramah during the Year of the Elephant",
+    event_revelation: "Beginning of Revelation",
+    event_revelation_desc: "First verses of the Quran revealed in Cave Hira'",
+    event_hijrah: "Migration to Madinah",
+    event_hijrah_desc: "Migration of Muslims from Makkah to Madinah",
+    event_conquest: "Conquest of Makkah",
+    event_conquest_desc: "Peaceful conquest of Makkah Al-Mukarramah",
+    event_death: "Death of the Prophet ﷺ",
+    event_death_desc: "The Prophet passed away in Madinah"
+  },
   about: {
-    title: 'About',
-    mission: 'Mission',
-    vision: 'Vision',
-    team: 'Team',
-    support: 'Support',
-    donate: 'Donate'
+    title: "About",
+    subtitle: "Learn about Hidden Light Project",
+    mission: "Mission",
+    mission_title: "Our Mission",
+    mission_desc: "Spreading the authentic biography of the Prophet in world languages.",
+    vision: "Vision",
+    support: "Support",
+    donate: "Donate",
+    features_title: "Project Features",
+    feature_sirah: "Prophetic Biography",
+    feature_sirah_desc: "Authentic historical presentation",
+    feature_hadith: "Noble Hadith",
+    feature_hadith_desc: "From authentic Sunnah",
+    feature_multilingual: "Multilingual",
+    feature_multilingual_desc: "Accessible to all",
+    feature_ai: "Artificial Intelligence",
+    feature_ai_desc: "Advanced search",
+    quote: "And We have not sent you, [O Muhammad], except as a mercy to the worlds.",
+    quote_author: "Surah Al-Anbiya"
   },
-
-  dailyHadith: 'Daily Hadith',
-  toggleTheme: 'Toggle Theme',
-  footerPrayer: 'O Allah, send peace and blessings upon our Prophet Muhammad'
+  contribute: {
+    subtitle: "Partner in Goodness",
+    ways_title: "Ways to Contribute",
+    option_development: "Technical Development",
+    option_development_desc: "Contribute to website development and UI improvement",
+    option_design: "Design & Creativity",
+    option_design_desc: "Help improve design and visual experience",
+    option_content: "Content Creation",
+    option_content_desc: "Contribute to writing and reviewing scholarly content",
+    option_donation: "Financial Support",
+    option_donation_desc: "Support the project financially to continue spreading",
+    learn_more: "Learn More",
+    donate: "Donate Now",
+    contact_title: "Contact Us",
+    name: "Name",
+    email: "Email",
+    message: "Message",
+    send: "Send",
+    form_submitted: "Your message has been sent successfully!"
+  },
+  hadith: {
+    title: "Noble Hadith",
+    subtitle: "Authentic sayings of the Prophet ﷺ",
+    search: "Search hadiths..."
+  },
+  companions: {
+    title: "The Companions",
+    subtitle: "Those who believed and supported him"
+  },
+  battles: {
+    title: "Battles & Campaigns",
+    subtitle: "Defending the message and establishing justice"
+  },
+  wisdom: {
+    title: "Prophetic Wisdom",
+    subtitle: "Timeless teachings for humanity"
+  },
+  messages: {
+    noResults: "No results found"
+  },
+  footer: {
+    copyright: "Hidden Light - All Rights Reserved",
+    back_to_top: "Back to Top"
+  },
+  footerPrayer: "O Allah, send peace and blessings upon our Prophet Muhammad"
 };

@@ -1,232 +1,244 @@
 <template>
-  <div class="biography-view container">
-    <header class="section-header fade-in-up">
-      <div class="icon-wrapper">
-        <span class="header-icon">📖</span>
+  <div class="biography-view">
+    <section class="hero-section">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1>{{ t('nav.biography') }}</h1>
+        <p>{{ t('biography.subtitle') }}</p>
       </div>
-      <h1 class="page-title">{{ t('biography.title') }}</h1>
-      <p class="page-subtitle">{{ t('biography.subtitle') }}</p>
-    </header>
+    </section>
 
-    <div v-if="loading" class="loading-state">
-      <div class="spinner"></div>
-    </div>
+    <section class="content-section">
+      <div class="container">
+        <div class="timeline-navigation">
+          <button 
+            v-for="period in periods" 
+            :key="period.key"
+            :class="['nav-btn', { active: activePeriod === period.key }]"
+            @click="setActivePeriod(period.key)"
+          >
+            {{ period.label }}
+          </button>
+        </div>
 
-    <div v-else class="timeline-container fade-in-up delay-1">
-      <Timeline 
-        :items="localizedEvents"
-        :title="t('biography.chronology') || 'Chronology'"
-        variant="vertical"
-        :show-navigation="false"
-        @itemSelect="handleEventSelect"
-      />
-    </div>
-
-    <!-- Detail Modal (Optional enhancement) -->
-    <Teleport to="body">
-      <div v-if="selectedEvent" class="event-modal" @click="closeModal">
-        <div class="modal-content" @click.stop>
-          <button class="close-btn" @click="closeModal">✕</button>
-          <h2>{{ currentLang === 'ar' ? selectedEvent.titleAr : selectedEvent.title }}</h2>
-          <span class="event-date">{{ selectedEvent.year }}</span>
-          <p>{{ currentLang === 'ar' ? selectedEvent.descriptionAr : selectedEvent.description }}</p>
+        <div class="period-content">
+          <h2>{{ getCurrentPeriod().title }}</h2>
+          <p>{{ getCurrentPeriod().description }}</p>
+          
+          <div class="events-grid">
+            <div 
+              v-for="event in getCurrentPeriod().events" 
+              :key="event.id"
+              class="event-card"
+            >
+              <h3>{{ event.title }}</h3>
+              <p>{{ event.description }}</p>
+            </div>
+          </div>
         </div>
       </div>
-    </Teleport>
+    </section>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import Timeline from '@/components/widgets/Timeline.vue';
-import contentService from '@/services/content';
 
-const { t, locale } = useI18n();
-const events = ref([]);
-const loading = ref(true);
-const selectedEvent = ref(null);
+const { t } = useI18n();
 
-const currentLang = computed(() => locale.value);
+const activePeriod = ref('birth');
 
-const localizedEvents = computed(() => {
-  return events.value.map(event => ({
-    ...event,
-    title: currentLang.value === 'ar' ? event.titleAr : event.title,
-    description: currentLang.value === 'ar' ? event.descriptionAr : event.description
-  }));
-});
+const periods = [
+  { key: 'birth', label: t('biography.period_birth') },
+  { key: 'youth', label: t('biography.period_youth') },
+  { key: 'prophethood', label: t('biography.period_prophethood') },
+  { key: 'migration', label: t('biography.period_migration') },
+  { key: 'medina', label: t('biography.period_medina') },
+  { key: 'death', label: t('biography.period_death') }
+];
 
-const handleEventSelect = (event) => {
-  // Map back to original event with all data
-  const originalEvent = events.value.find(e => e.id === event.id);
-  selectedEvent.value = originalEvent;
-};
-
-const closeModal = () => {
-  selectedEvent.value = null;
-};
-
-onMounted(async () => {
-  try {
-    events.value = await contentService.getBiography();
-  } catch (error) {
-    console.error('Failed to load biography:', error);
-  } finally {
-    loading.value = false;
+const biographyData = {
+  birth: {
+    title: t('biography.birth_title'),
+    description: t('biography.birth_description'),
+    events: [
+      {
+        id: 1,
+        title: t('biography.event_birth_year'),
+        description: t('biography.event_birth_year_desc')
+      },
+      {
+        id: 2,
+        title: t('biography.event_father_death'),
+        description: t('biography.event_father_death_desc')
+      }
+    ]
+  },
+  youth: {
+    title: t('biography.youth_title'),
+    description: t('biography.youth_description'),
+    events: [
+      {
+        id: 1,
+        title: t('biography.event_shepherd'),
+        description: t('biography.event_shepherd_desc')
+      }
+    ]
+  },
+  prophethood: {
+    title: t('biography.prophethood_title'),
+    description: t('biography.prophethood_description'),
+    events: [
+      {
+        id: 1,
+        title: t('biography.event_first_revelation'),
+        description: t('biography.event_first_revelation_desc')
+      }
+    ]
+  },
+  migration: {
+    title: t('biography.migration_title'),
+    description: t('biography.migration_description'),
+    events: [
+      {
+        id: 1,
+        title: t('biography.event_hijrah'),
+        description: t('biography.event_hijrah_desc')
+      }
+    ]
+  },
+  medina: {
+    title: t('biography.medina_title'),
+    description: t('biography.medina_description'),
+    events: [
+      {
+        id: 1,
+        title: t('biography.event_constitution'),
+        description: t('biography.event_constitution_desc')
+      }
+    ]
+  },
+  death: {
+    title: t('biography.death_title'),
+    description: t('biography.death_description'),
+    events: [
+      {
+        id: 1,
+        title: t('biography.event_farewell'),
+        description: t('biography.event_farewell_desc')
+      }
+    ]
   }
-});
+};
+
+function setActivePeriod(period) {
+  activePeriod.value = period;
+}
+
+function getCurrentPeriod() {
+  return biographyData[activePeriod.value] || biographyData.birth;
+}
 </script>
 
 <style lang="scss" scoped>
 @import '@/assets/styles/variables';
 
 .biography-view {
-  padding-bottom: $spacing-xxl;
-}
+  .hero-section {
+    position: relative;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(rgba($dark-primary, 0.8), rgba($dark-secondary, 0.8)), 
+                url('/images/biography-hero.jpg');
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    color: white;
 
-.section-header {
-  text-align: center;
-  margin-bottom: $spacing-xxl;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+    .hero-content h1 {
+      font-size: $font-size-xxxl;
+      margin-bottom: $spacing-md;
+    }
 
-.icon-wrapper {
-  width: 60px;
-  height: 60px;
-  background: rgba($dark-accent, 0.1);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: $spacing-md;
-  font-size: 2rem;
-  
-  .theme-light & {
-    background: rgba($light-accent, 0.1);
-  }
-}
-
-.page-title {
-  font-family: 'Amiri', serif;
-  font-size: 2.5rem;
-  color: $dark-accent;
-  margin: 0 0 $spacing-sm;
-  
-  .theme-light & {
-    color: $light-text;
-  }
-}
-
-.page-subtitle {
-  color: $dark-text-secondary;
-  font-size: 1.1rem;
-  max-width: 600px;
-  
-  .theme-light & {
-    color: $light-text-secondary;
-  }
-}
-
-.loading-state {
-  display: flex;
-  justify-content: center;
-  padding: $spacing-xl;
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba($dark-accent, 0.3);
-  border-top-color: $dark-accent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.event-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  backdrop-filter: blur(5px);
-}
-
-.modal-content {
-  background: $dark-primary;
-  padding: $spacing-xl;
-  border-radius: $border-radius-lg;
-  max-width: 500px;
-  width: 90%;
-  position: relative;
-  border: 1px solid $dark-accent;
-  
-  .theme-light & {
-    background: $light-primary;
-    border-color: $light-accent;
-  }
-  
-  h2 {
-    color: $dark-accent;
-    font-family: 'Amiri', serif;
-    margin-top: 0;
-  }
-  
-  .event-date {
-    display: inline-block;
-    background: rgba($dark-accent, 0.1);
-    color: $dark-accent;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    margin-bottom: $spacing-md;
-  }
-  
-  p {
-    line-height: 1.6;
-    color: $dark-text;
-    
-    .theme-light & {
-      color: $light-text;
+    .hero-content p {
+      font-size: $font-size-lg;
+      max-width: 600px;
+      margin: 0 auto;
     }
   }
-}
 
-.close-btn {
-  position: absolute;
-  top: $spacing-md;
-  right: $spacing-md;
-  background: none;
-  border: none;
-  color: $dark-text-secondary;
-  cursor: pointer;
-  font-size: 1.2rem;
-  
-  &:hover {
-    color: $dark-accent;
+  .content-section {
+    padding: $spacing-xxl 0;
+
+    .timeline-navigation {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: $spacing-sm;
+      margin-bottom: $spacing-xl;
+
+      .nav-btn {
+        padding: $spacing-sm $spacing-md;
+        background-color: $dark-secondary;
+        border: 1px solid $dark-border;
+        border-radius: $border-radius-pill;
+        color: $dark-text;
+        cursor: pointer;
+        transition: all $duration-fast $ease-in-out;
+
+        &.active,
+        &:hover {
+          background-color: $dark-accent;
+          color: $dark-primary;
+          border-color: $dark-accent;
+        }
+      }
+    }
+
+    .period-content {
+      max-width: 800px;
+      margin: 0 auto;
+
+      h2 {
+        font-size: $font-size-xxl;
+        margin-bottom: $spacing-md;
+        color: $dark-text;
+      }
+
+      p {
+        font-size: $font-size-lg;
+        color: $dark-text-secondary;
+        line-height: 1.6;
+        margin-bottom: $spacing-xl;
+      }
+
+      .events-grid {
+        display: grid;
+        gap: $spacing-lg;
+
+        .event-card {
+          background-color: $dark-secondary;
+          padding: $spacing-lg;
+          border-radius: $border-radius-md;
+          box-shadow: $shadow-sm;
+
+          h3 {
+            font-size: $font-size-lg;
+            color: $dark-text;
+            margin-bottom: $spacing-sm;
+          }
+
+          p {
+            font-size: $font-size-md;
+            color: $dark-text-secondary;
+            margin: 0;
+          }
+        }
+      }
+    }
   }
-}
-
-.fade-in-up {
-  animation: fadeInUp 0.8s ease-out forwards;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.delay-1 { animation-delay: 0.2s; }
-
-@keyframes fadeInUp {
-  to { opacity: 1; transform: translateY(0); }
 }
 </style>

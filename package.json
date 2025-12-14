@@ -10,10 +10,10 @@
   "dependencies": {
     "vue": "^3.4.0",
     "vue-router": "^4.2.5",
-    "pinia": "^2.1.7",
+    "vuex": "^4.0.0",
     "vue-i18n": "^9.8.0",
-    "three": "^0.159.0",
-    "gsap": "^3.12.2"
+    "axios": "^1.6.2",
+    "@google/genai": "^0.1.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.5.2",

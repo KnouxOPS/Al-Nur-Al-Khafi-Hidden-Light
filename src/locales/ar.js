@@ -1,173 +1,205 @@
 export default {
-  // General
   app: {
     name: 'النور الخفي',
-    description: 'كشف نور سيدنا محمد ﷺ للعالم أجمع',
-    welcome: 'أهلاً وسهلاً بك في النور الخفي'
+    description: 'كشف نور سيدنا محمد ﷺ للعالم أجمع'
   },
-
-  // Navigation
-  nav: {
-    home: 'الرئيسية',
-    biography: 'السيرة النبوية',
-    hadith: 'الأحاديث والحكمة',
-    companions: 'الصحابة والصحابيات',
-    battles: 'الغزوات والسيرة العسكرية',
-    wisdom: 'الحكم والأمثال',
-    about: 'عن المشروع',
-    search: 'بحث',
-    settings: 'الإعدادات',
-    exploreSections: 'استكشف الأقسام'
-  },
-
-  // Home Page
-  home: {
-    dailyHadith: 'حديث اليوم',
-    featuredContent: 'محتوى مميز',
-    continueReading: 'متابعة القراءة',
-    latestUpdates: 'آخر التحديثات',
-    heroSubtitle: 'اكتشف النور الخفي في حياة النبي محمد ﷺ',
-    startJourney: 'ابدأ الرحلة',
-    aboutUs: 'تعرف علينا',
-    biography: 'السيرة العطرة',
-    biographyDesc: 'تتبع الجدول الزمني لحياة النبي ﷺ',
-    battles: 'الغزوات',
-    battlesDesc: 'دروس وعبر من التاريخ العسكري',
-    companions: 'الصحابة',
-    companionsDesc: 'رجال ونساء حول الرسول'
-  },
-
-  // Biography
-  biography: {
-    title: 'السيرة النبوية',
-    subtitle: 'محطات مضيئة في حياة خير البشر ﷺ',
-    beforeBirth: 'قبل الولادة',
-    childhood: 'الطفولة والنشوء',
-    preProphethood: 'قبل البعثة',
-    earlyRevelation: 'بداية الوحي',
-    migration: 'الهجرة',
-    medinaPeriod: 'فترة المدينة',
-    finalYears: 'السنوات الأخيرة',
-    legacy: 'الأثر الخالد'
-  },
-
-  // Hadith
-  hadith: {
-    title: 'الأحاديث والحكمة',
-    subtitle: 'جواهر من كلام سيد المرسلين ﷺ',
-    daily: 'حديث اليوم',
-    collections: 'مجموعات الأحاديث',
-    topics: 'المواضيع',
-    search: 'ابحث في الأحاديث',
-    source: 'المصدر',
-    grade: 'الصحة'
-  },
-
-  // Companions
-  companions: {
-    title: 'الصحابة والصحابيات',
-    subtitle: 'نجوم حول النبي ﷺ اهتدوا بهديه',
-    muhajirun: 'المهاجرون',
-    ansar: 'الأنصار',
-    women: 'النساء الصحابيات',
-    relationships: 'العلاقات'
-  },
-
-  // Battles
-  battles: {
-    title: 'الغزوات والسيرة العسكرية',
-    subtitle: 'دروس في الدفاع عن الحق والأخلاق',
-    chronological: 'مرتبة زمنياً',
-    geographical: 'مرتبة جغرافياً',
-    lessons: 'الدروس المستفادة',
-    map: 'الخريطة',
-    viewDetails: 'عرض التفاصيل'
-  },
-
-  // Wisdom
-  wisdom: {
-    title: 'الحكم والأمثال',
-    subtitle: 'قبسات نورانية من المشكاة المحمدية',
-    dailyQuote: 'اقتباس اليوم',
-    ethics: 'الأخلاق',
-    family: 'الأسرة',
-    society: 'المجتمع',
-    worship: 'العبادة'
-  },
-
-  // Settings
   settings: {
-    title: 'الإعدادات',
-    theme: 'المظهر',
-    language: 'اللغة',
-    notifications: 'الإشعارات',
-    audio: 'الصوت',
-    accessibility: 'سهولة الوصول',
-    dark: 'داكن',
-    light: 'فاتح',
-    arabic: 'العربية',
-    english: 'الإنجليزية'
+    light: 'وضع النهار',
+    dark: 'وضع الليل'
   },
-
-  // Common
-  common: {
-    loading: 'جاري التحميل...',
-    error: 'حدث خطأ، يرجى المحاولة لاحقاً',
-    retry: 'إعادة المحاولة',
-    back: 'عودة',
-    next: 'التالي',
-    previous: 'السابق',
-    save: 'حفظ',
-    cancel: 'إلغاء',
-    share: 'مشاركة',
-    copy: 'نسخ',
-    copied: 'تم النسخ',
-    search: 'بحث',
-    filter: 'تصفية',
-    sort: 'ترتيب',
-    readMore: 'اقرأ المزيد',
-    viewAll: 'عرض الكل',
-    close: 'إغلاق',
-    menu: 'القائمة',
-    email: 'البريد الإلكتروني',
-    subscribe: 'اشتراك',
-    madeWithLove: 'صنع بحب وإتقان',
-    backToTop: 'للأعلى'
+  ai: {
+    title: 'المساعد الذكي',
+    subtitle: 'إجابات موثقة بالذكاء الاصطناعي',
+    placeholder: 'اسأل عن أخلاق النبي، أو مواقف من حياته...'
   },
-
-  // Audio Player
-  audio: {
-    play: 'تشغيل',
-    pause: 'إيقاف',
-    stop: 'توقف',
-    mute: 'كتم',
-    unmute: 'إلغاء الكتم',
-    volume: 'الصوت',
-    speed: 'السرعة',
-    currentTime: 'الوقت الحالي',
-    duration: 'المدة'
-  },
-
-  // Footer
-  footer: {
-    copyright: 'حقوق النشر © 2024 النور الخفي',
-    privacy: 'سياسة الخصوصية',
-    terms: 'شروط الاستخدام',
-    contact: 'تواصل معنا',
-    prayer: 'اللهم صل وسلم على نبينا محمد'
-  },
-
-  // About
-  about: {
-    title: 'عن المشروع',
-    mission: 'الرسالة',
-    vision: 'الرؤية',
-    team: 'الفريق',
-    support: 'الدعم',
-    donate: 'ادعمنا'
-  },
-
   dailyHadith: 'حديث اليوم',
-  toggleTheme: 'تبديل المظهر',
-  footerPrayer: 'اللهم صل وسلم على نبينا محمد'
+  common: {
+    loading: "جارٍ التحميل...",
+    share: "مشاركة",
+    bookmark: "حفظ",
+    bookmarked: "محفوظ",
+    copied_to_clipboard: "تم النسخ إلى الحافظة!",
+    close: "إغلاق",
+    search: "بحث",
+    viewAll: "عرض الكل",
+    error: "حدث خطأ",
+    previous: "السابق",
+    next: "التالي",
+    subscribe: "اشتراك",
+    copied: "تم النسخ",
+    menu: "القائمة",
+    toggle_theme: "تبديل المظهر"
+  },
+  nav: {
+    home: "الرئيسية",
+    biography: "السيرة النبوية",
+    hadith: "الأحاديث",
+    timeline: "الجدول الزمني",
+    about: "عن المشروع",
+    contribute: "ساهم معنا",
+    companions: "الصحابة",
+    battles: "الغزوات",
+    wisdom: "الحكم",
+    aiSearch: "المساعد الذكي",
+    search: "بحث",
+    exploreSections: "استكشف الأقسام"
+  },
+  home: {
+    project_name_part1: "النور",
+    project_name_part2: "الخفي",
+    hero_subtitle: "رحلة رقمية عبر الزمن لاكتشاف حياة ورسالة النبي محمد ﷺ",
+    start_biography: "تعرّف على سيرته",
+    explore_journey: "ابدأ الرحلة الآن",
+    daily_hadith: "حديث اليوم",
+    featured_content: "محتوى مميز",
+    category_battles: "غزوات",
+    category_sirah: "سيرة",
+    feature_1_title: "غزوة بدر الكبرى",
+    feature_1_desc: "أول معركة فاصلة في الإسلام وبداية تغيير موازين القوة",
+    feature_2_title: "أخلاق النبي محمد ﷺ",
+    feature_2_desc: "استكشف الأخلاق النبوية التي جعلته قدوة للبشرية",
+    timeline_preview: "لمحة عن الرسالة",
+    view_full_timeline: "عرض الجدول الزمني الكامل",
+    cta_title: "ساهم في نشر النور",
+    cta_text: "ساعدنا في إيصال رسالة النبي ﷺ إلى العالم بأكمله",
+    contribute: "ساهم في المشروع",
+    event_birth: "مولد النبي محمد ﷺ",
+    event_birth_desc: "ولد النبي في مكة المكرمة في عام الفيل",
+    event_revelation: "بدء الوحي",
+    event_revelation_desc: "نزول أول آيات القرآن على النبي في غار حراء",
+    event_hijrah: "الهجرة إلى المدينة",
+    event_hijrah_desc: "هجرة النبي وأصحابه من مكة إلى المدينة المنورة",
+    event_death: "وفاة النبي ﷺ",
+    event_death_desc: "وفاة النبي في المدينة المنورة عن عمر 63 عاماً",
+    journey_started: "بدأ رحلتك نحو النور!"
+  },
+  search: {
+    placeholder: "ابحث في السيرة والأحاديث...",
+    clear: "مسح البحث",
+    recent: "عمليات البحث الأخيرة",
+    popular: "البحث الشائع",
+    no_results: "لا توجد نتائج",
+    try_again: "جرّب كلمات مفتاحية مختلفة",
+    ai_results: "نتائج ذكية",
+    confidence: "الثقة",
+    relevance: "الصلة"
+  },
+  content: {
+    biography: "سيرة",
+    hadith: "حديث",
+    companion: "صحابي",
+    battle: "غزوة",
+    wisdom: "حكمة",
+    general: "عام"
+  },
+  biography: {
+    title: "السيرة النبوية",
+    subtitle: "رحلة حياة النبي محمد ﷺ من المهد إلى اللحد",
+    period_birth: "قبل النبوة",
+    period_youth: "الشباب",
+    period_prophethood: "النبوة",
+    period_migration: "الهجرة",
+    period_medina: "في المدينة",
+    period_death: "الوفاة",
+    birth_title: "قبل النبوة",
+    birth_description: "الأحداث التي سبقت بعثة النبي محمد ﷺ",
+    event_birth_year: "مولد النبي ﷺ",
+    event_birth_year_desc: "ولد النبي محمد بن عبدالله في مكة المكرمة عام الفيل",
+    event_father_death: "وفاة الأب",
+    event_father_death_desc: "توفي عبدالله بن عبدالمطلب قبل مولد النبي ﷺ بأشهر قليلة",
+    youth_title: "فترة الشباب",
+    youth_description: "سنوات الشباب وبناء الشخصية",
+    event_shepherd: "الرعي والتجارة",
+    event_shepherd_desc: "اشتغل النبي ﷺ بالرعي ثم بالتجارة مع السيدة خديجة بنت خويلد",
+    prophethood_title: "بعثة النبوة",
+    prophethood_description: "بداية الوحي ودعوة الناس إلى الإسلام",
+    event_first_revelation: "أول وحي",
+    event_first_revelation_desc: "نزول الآيات الأولى في غار حراء على النبي ﷺ",
+    migration_title: "الهجرة النبوية",
+    migration_description: "انتقال المسلمين من مكة إلى المدينة",
+    event_hijrah: "الهجرة إلى المدينة",
+    event_hijrah_desc: "هجرة النبي وأصحابه من مكة المكرمة إلى المدينة المنورة",
+    medina_title: "الحياة في المدينة",
+    medina_description: "بناء المجتمع الإسلامي الأول",
+    event_constitution: "دستور المدينة",
+    event_constitution_desc: "وضع أول دستور إسلامي ينظم العلاقات بين المسلمين والمسلمين",
+    death_title: "الوفاة والوداع",
+    death_description: "الخطبة الأخيرة والوفاة المباركة",
+    event_farewell: "الخطبة الوداعية",
+    event_farewell_desc: "آخر خطبة للنبي ﷺ في حجة الوداع بمكة المكرمة"
+  },
+  timeline: {
+    subtitle: "الرسالة عبر الزمن",
+    event_birth: "مولد النبي محمد ﷺ",
+    event_birth_desc: "ولد النبي في مكة المكرمة عام الفيل",
+    event_revelation: "بدء الوحي",
+    event_revelation_desc: "نزول أول آيات القرآن في غار حراء",
+    event_hijrah: "الهجرة إلى المدينة",
+    event_hijrah_desc: "انتقال المسلمين من مكة إلى المدينة",
+    event_conquest: "فتح مكة",
+    event_conquest_desc: "فتح مكة المكرمة بدون مقاومة تقريباً",
+    event_death: "وفاة النبي ﷺ",
+    event_death_desc: "وفاة النبي في المدينة المنورة"
+  },
+  about: {
+    title: "عن المشروع",
+    subtitle: "رسالة من القلب إلى القلوب",
+    mission: "الرسالة",
+    mission_title: "رسالتنا",
+    mission_desc: "تقديم سيرة النبي محمد ﷺ بطريقة معاصرة ومتكاملة للعالم أجمع",
+    vision: "الرؤية",
+    support: "الدعم",
+    donate: "ادعمنا",
+    features_title: "مميزات المشروع",
+    feature_sirah: "السيرة النبوية",
+    feature_sirah_desc: "رواية مفصلة ودقيقة لحياة النبي ﷺ",
+    feature_hadith: "الأحاديث النبوية",
+    feature_hadith_desc: "مجموعة من الأحاديث الصحيحة مع الشرح",
+    feature_multilingual: "متعدد اللغات",
+    feature_multilingual_desc: "متوفر باللغتين العربية والإنجليزية",
+    feature_ai: "الذكاء الاصطناعي",
+    feature_ai_desc: "محرك بحث ذكي يجيب على الأسئلة حول السيرة",
+    quote: "بلّغوا عني ولو آية",
+    quote_author: "رسول الله محمد ﷺ"
+  },
+  contribute: {
+    subtitle: "كن جزءاً من هذه الرسالة النورانية",
+    ways_title: "طرق المساهمة",
+    option_development: "التطوير التقني",
+    option_development_desc: "ساهم في تطوير الموقع وتحسين واجهة المستخدم",
+    option_design: "التصميم والإبداع",
+    option_design_desc: "ساعد في تحسين التصميم والتجربة البصرية",
+    option_content: "إعداد المحتوى",
+    option_content_desc: "ساهم في كتابة وتدقيق المحتوى العلمي",
+    option_donation: "الدعم المالي",
+    option_donation_desc: "ادعم المشروع مالياً لنستمر في النشر",
+    learn_more: "تعرف على المزيد",
+    donate: "تبرع الآن",
+    contact_title: "تواصل معنا",
+    name: "الاسم",
+    email: "البريد الإلكتروني",
+    message: "الرسالة",
+    send: "إرسال",
+    form_submitted: "تم إرسال رسالتك بنجاح!"
+  },
+  hadith: {
+    title: "الحديث الشريف",
+    subtitle: "أحاديث مختارة من صحيح السنة",
+    search: "ابحث في الأحاديث..."
+  },
+  companions: {
+    title: "الصحابة الكرام",
+    subtitle: "رجال ونساء حول الرسول"
+  },
+  battles: {
+    title: "الغزوات والسرايا",
+    subtitle: "دفاعاً عن الرسالة وإقامة للعدل"
+  },
+  wisdom: {
+    title: "من وحي النبوة",
+    subtitle: "حكم ومواعظ خالدة"
+  },
+  messages: {
+    noResults: "لا توجد نتائج"
+  }
 };
