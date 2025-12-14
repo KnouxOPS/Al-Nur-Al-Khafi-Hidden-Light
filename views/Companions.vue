@@ -1,0 +1,1 @@
+<template><div>Companions Page</div></template>

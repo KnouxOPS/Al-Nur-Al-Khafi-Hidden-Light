@@ -1,0 +1,1 @@
+<template><div>Biography Page</div></template>

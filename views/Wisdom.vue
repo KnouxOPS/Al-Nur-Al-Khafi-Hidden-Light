@@ -1,0 +1,1 @@
+<template><div>Wisdom Page</div></template>

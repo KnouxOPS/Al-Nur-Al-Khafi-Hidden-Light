@@ -1,0 +1,7 @@
+{
+  "name": "Al-Nur Al-Khafi (Hidden Light)",
+  "description": "A sacred digital tribute to Prophet Muhammad ﷺ featuring biography, hadith, and AI-powered spiritual search.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

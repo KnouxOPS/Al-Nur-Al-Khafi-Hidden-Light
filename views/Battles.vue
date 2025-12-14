@@ -1,0 +1,1 @@
+<template><div>Battles Page</div></template>
