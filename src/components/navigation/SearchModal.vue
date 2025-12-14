@@ -1,6 +1,13 @@
 <template>
   <Teleport to="body">
-    <div v-if="isOpen" class="search-modal" @click="handleBackdropClick">
+    <div 
+      v-if="isOpen" 
+      class="search-modal" 
+      @click="handleBackdropClick"
+      role="dialog"
+      aria-modal="true"
+      :aria-label="t('common.search')"
+    >
       <div class="search-container" @click.stop>
         <!-- Search Header -->
         <div class="search-header">
@@ -18,6 +25,7 @@
               @keydown.enter="handleEnter"
               @keydown.esc="closeModal"
               autocomplete="off"
+              :aria-label="t('search.placeholder') || 'Search content'"
             />
             <button v-if="searchQuery" @click="clearSearch" class="clear-button" :aria-label="t('common.close') || 'Clear search'">
               <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -36,12 +44,13 @@
         <!-- Recent Searches -->
         <div v-if="!searchQuery && recentSearches.length > 0" class="recent-searches">
           <h3 class="section-title">{{ t('nav.search') }} - {{ t('common.viewAll') || 'Recent' }}</h3>
-          <div class="search-tags">
+          <div class="search-tags" role="list">
             <button
               v-for="(search, index) in recentSearches"
               :key="index"
               @click="selectRecentSearch(search)"
               class="search-tag"
+              role="listitem"
             >
               {{ search }}
             </button>
@@ -49,8 +58,8 @@
         </div>
 
         <!-- Search Results -->
-        <div v-else-if="searchQuery" class="search-results">
-          <div v-if="isLoading" class="loading-results">
+        <div v-else-if="searchQuery" class="search-results" role="region" :aria-label="t('search.results_label') || 'Search Results'">
+          <div v-if="isLoading" class="loading-results" aria-live="polite">
             <div class="spinner"></div>
             <p>{{ t('common.loading') }}</p>
           </div>
@@ -60,7 +69,7 @@
             <div v-if="aiSearchResults.length > 0" class="results-list ai-results">
               <div class="ai-header">
                 <h3>{{ t('search.ai_results') }}</h3>
-                <span class="confidence-badge">{{ t('search.confidence') }}: {{ aiConfidence }}%</span>
+                <span class="confidence-badge" :aria-label="t('search.confidence') + ' ' + aiConfidence + '%'">{{ t('search.confidence') }}: {{ aiConfidence }}%</span>
               </div>
               
               <div
@@ -68,8 +77,12 @@
                 :key="'ai-' + result.id"
                 class="result-item ai-result"
                 @click="openResult(result)"
+                role="button"
+                tabindex="0"
+                @keydown.enter="openResult(result)"
+                @keydown.space.prevent="openResult(result)"
               >
-                <div class="result-icon">
+                <div class="result-icon" aria-hidden="true">
                   <span v-if="result.type === 'biography'">📖</span>
                   <span v-else-if="result.type === 'hadith'">📜</span>
                   <span v-else>✨</span>
@@ -98,7 +111,7 @@
                 @keydown.enter="openResult(result)"
                 @keydown.space.prevent="openResult(result)"
               >
-                <div class="result-icon">
+                <div class="result-icon" aria-hidden="true">
                   <span v-if="result.type === CONTENT_TYPES.BIOGRAPHY">📖</span>
                   <span v-else-if="result.type === CONTENT_TYPES.HADITH">📜</span>
                   <span v-else-if="result.type === CONTENT_TYPES.COMPANION">👥</span>
@@ -112,7 +125,7 @@
               </div>
             </div>
             
-            <div v-if="searchResults.length === 0 && aiSearchResults.length === 0" class="no-results">
+            <div v-if="searchResults.length === 0 && aiSearchResults.length === 0" class="no-results" aria-live="polite">
               <svg class="no-results-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" 
                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -126,12 +139,13 @@
         <!-- Popular Searches -->
         <div v-else class="popular-searches">
           <h3 class="section-title">{{ t('nav.exploreSections') || 'Popular' }}</h3>
-          <div class="search-tags">
+          <div class="search-tags" role="list">
             <button
               v-for="(tag, index) in popularTags"
               :key="index"
               @click="selectPopularTag(tag)"
               class="search-tag"
+              role="listitem"
             >
               {{ tag }}
             </button>

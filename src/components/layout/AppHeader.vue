@@ -31,6 +31,7 @@
           to="/ai-search" 
           class="action-button ai-button" 
           :title="t('nav.aiSearch') || 'AI Search'"
+          :aria-label="t('nav.aiSearch') || 'AI Search'"
         >
           <span aria-hidden="true">✨</span>
         </router-link>
@@ -40,8 +41,9 @@
           class="action-button search-button" 
           @click="$emit('open-search')"
           :title="t('common.search')"
+          :aria-label="t('common.search')"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
@@ -52,6 +54,7 @@
           class="action-button theme-toggle" 
           @click="toggleTheme"
           :title="currentTheme === 'dark' ? t('settings.light') : t('settings.dark')"
+          :aria-label="currentTheme === 'dark' ? t('settings.light') : t('settings.dark')"
         >
           <span v-if="currentTheme === 'dark'" aria-hidden="true">☀️</span>
           <span v-else aria-hidden="true">🌙</span>
@@ -61,6 +64,7 @@
         <button 
           class="action-button language-switcher" 
           @click="toggleLanguage"
+          :aria-label="'Switch language to ' + (currentLanguage === 'ar' ? 'English' : 'Arabic')"
         >
           <span class="lang-code">{{ currentLanguage === 'ar' ? 'EN' : 'عربي' }}</span>
         </button>
@@ -69,6 +73,9 @@
         <button 
           class="action-button menu-button hidden-desktop" 
           @click="toggleMobileMenu"
+          :aria-expanded="mobileMenuOpen"
+          aria-controls="mobile-nav"
+          :aria-label="mobileMenuOpen ? t('common.close') : t('common.menu')"
         >
           <span aria-hidden="true">{{ mobileMenuOpen ? '✕' : '☰' }}</span>
         </button>
@@ -77,7 +84,13 @@
 
     <!-- Mobile Navigation -->
     <transition name="slide">
-      <div v-if="mobileMenuOpen" id="mobile-nav" class="mobile-nav hidden-desktop">
+      <div 
+        v-if="mobileMenuOpen" 
+        id="mobile-nav" 
+        class="mobile-nav hidden-desktop"
+        role="navigation"
+        :aria-label="t('common.menu')"
+      >
         <ul class="mobile-nav-list">
           <li v-for="item in navItems" :key="item.name" class="mobile-nav-item">
             <router-link 

@@ -1,5 +1,13 @@
 <template>
-  <article class="content-card" :class="[`card-${variant}`, { 'loading': isLoading }]">
+  <article 
+    class="content-card" 
+    :class="[`card-${variant}`, { 'loading': isLoading }]"
+    @click="handleClick"
+    role="button"
+    tabindex="0"
+    @keydown.enter="handleClick"
+    @keydown.space.prevent="handleClick"
+  >
     <div v-if="isLoading" class="card-loading" aria-hidden="true">
       <div class="loading-skeleton"></div>
     </div>
@@ -229,6 +237,11 @@ const handleClick = () => {
     transform: translateY(-4px);
     box-shadow: $shadow-md;
     border-color: rgba($dark-accent, 0.3);
+  }
+  
+  &:focus-visible {
+    outline: 2px solid $dark-accent;
+    outline-offset: 2px;
   }
   
   &.loading {

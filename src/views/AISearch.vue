@@ -1,14 +1,14 @@
 <template>
   <div class="ai-search-view container">
     <div class="ai-header">
-      <div class="icon-glow">✨</div>
+      <div class="icon-glow" aria-hidden="true">✨</div>
       <h1 class="page-title">{{ $t('ai.title') || 'AI Spiritual Guide' }}</h1>
       <p class="page-subtitle">{{ $t('ai.subtitle') || 'Powered by Gemini • Knowledge from authentic sources' }}</p>
     </div>
 
     <!-- Chat Interface -->
     <div class="chat-container">
-      <div class="chat-messages" ref="messagesContainer">
+      <div class="chat-messages" ref="messagesContainer" aria-live="polite" role="log" aria-label="Chat messages">
         <div 
           v-for="(msg, idx) in messages" 
           :key="idx" 
@@ -17,7 +17,7 @@
         >
           <div class="message-bubble">
             <div v-if="msg.role === 'assistant'" class="bot-label">
-              <span>🤖</span> Hidden Light AI
+              <span aria-hidden="true">🤖</span> Hidden Light AI
             </div>
             <p class="message-text">{{ msg.content }}</p>
           </div>
@@ -25,10 +25,10 @@
         
         <div v-if="isLoading" class="message-row assistant">
           <div class="message-bubble loading">
-            <div class="dots">
+            <div class="dots" aria-hidden="true">
               <span></span><span></span><span></span>
             </div>
-            <span class="loading-text">Consulting knowledge base...</span>
+            <span class="loading-text">{{ t('common.loading') || 'Consulting knowledge base...' }}</span>
           </div>
         </div>
       </div>
@@ -42,17 +42,19 @@
             :placeholder="$t('ai.placeholder') || 'Ask about the Prophet\'s patience, his family, or battles...'"
             class="chat-input"
             :disabled="isLoading"
+            :aria-label="$t('ai.placeholder') || 'Ask a question'"
           />
           <button 
             type="submit" 
             class="send-btn" 
             :disabled="isLoading || !query.trim()"
+            :aria-label="t('common.send') || 'Send message'"
           >
-            ➤
+            <span aria-hidden="true">➤</span>
           </button>
         </form>
         <div class="disclaimer">
-          ⚠️ AI can make mistakes. Please verify important religious rulings with qualified scholars.
+          <span aria-hidden="true">⚠️</span> AI can make mistakes. Please verify important religious rulings with qualified scholars.
         </div>
       </div>
     </div>
@@ -61,8 +63,10 @@
 
 <script setup>
 import { ref, nextTick, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { generateResponse } from '@/services/gemini.js';
 
+const { t } = useI18n();
 const query = ref('');
 const messages = ref([
   { role: 'assistant', content: 'Peace be upon you. I am your spiritual assistant for the "Hidden Light" project. Ask me anything about the life, character, or teachings of Prophet Muhammad ﷺ.' }
