@@ -6,12 +6,19 @@ class LocalDatabase {
   }
 
   async init() {
-    if (!window.indexedDB) return;
+    if (!window.indexedDB) {
+      console.warn('IndexedDB not supported in this environment');
+      return;
+    }
     
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this.dbName, this.version);
 
-      request.onerror = () => reject(request.error);
+      request.onerror = () => {
+        console.error('Database error:', request.error);
+        reject(request.error);
+      };
+
       request.onsuccess = () => {
         this.db = request.result;
         resolve(this.db);
@@ -40,6 +47,8 @@ class LocalDatabase {
 
   async saveArticle(article) {
     if (!this.db) await this.init();
+    if (!this.db) return; // Safety guard
+
     const transaction = this.db.transaction(['articles'], 'readwrite');
     const store = transaction.objectStore('articles');
     
@@ -53,6 +62,8 @@ class LocalDatabase {
 
   async getAllArticles(filters = {}) {
     if (!this.db) await this.init();
+    if (!this.db) return []; // Safety guard
+
     const transaction = this.db.transaction(['articles'], 'readonly');
     const store = transaction.objectStore('articles');
     
@@ -66,7 +77,7 @@ class LocalDatabase {
 
     return new Promise((resolve, reject) => {
       request.onsuccess = () => {
-        let results = request.result;
+        let results = request.result || [];
         if (filters.search) {
           const searchTerm = filters.search.toLowerCase();
           results = results.filter(article => 
@@ -82,6 +93,8 @@ class LocalDatabase {
 
   async saveUserData(key, value) {
     if (!this.db) await this.init();
+    if (!this.db) return; // Safety guard
+
     const transaction = this.db.transaction(['user_data'], 'readwrite');
     const store = transaction.objectStore('user_data');
 
@@ -96,6 +109,8 @@ class LocalDatabase {
 
   async getUserData(key) {
     if (!this.db) await this.init();
+    if (!this.db) return null; // Safety guard
+
     const transaction = this.db.transaction(['user_data'], 'readonly');
     const store = transaction.objectStore('user_data');
 
