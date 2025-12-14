@@ -26,6 +26,23 @@
 
       <!-- Header Actions -->
       <div class="header-actions">
+        <!-- AI Search Button -->
+        <router-link to="/ai-search" class="action-button ai-button" :title="t('nav.aiSearch') || 'AI Search'">
+          <span>✨</span>
+        </router-link>
+
+        <!-- Search Button -->
+        <button 
+          class="action-button search-button" 
+          @click="toggleSearch"
+          :title="t('common.search')"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+
         <!-- Theme Toggle -->
         <button 
           class="action-button theme-toggle" 
@@ -70,6 +87,11 @@
             </router-link>
           </li>
           <li class="mobile-nav-item">
+            <router-link to="/ai-search" class="mobile-nav-link" active-class="active" @click="closeMobileMenu">
+              ✨ {{ t('nav.aiSearch') || 'AI Guide' }}
+            </router-link>
+          </li>
+          <li class="mobile-nav-item">
             <router-link to="/about" class="mobile-nav-link" active-class="active" @click="closeMobileMenu">
               {{ t('nav.about') }}
             </router-link>
@@ -77,6 +99,8 @@
         </ul>
       </div>
     </transition>
+
+    <SearchModal :is-open="isSearchOpen" @close="closeSearch" />
   </header>
 </template>
 
@@ -86,6 +110,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useTheme } from '@/composables/useTheme';
 import { useMainStore } from '@/store';
+import SearchModal from '@/components/navigation/SearchModal.vue';
 
 const { t, locale } = useI18n();
 const router = useRouter();
@@ -95,6 +120,7 @@ const { currentTheme, toggleTheme } = useTheme();
 // State
 const isScrolled = ref(false);
 const mobileMenuOpen = ref(false);
+const isSearchOpen = ref(false);
 const currentLanguage = computed(() => store.preferences.language);
 
 // Navigation items
@@ -112,23 +138,27 @@ const handleScroll = () => {
   isScrolled.value = window.scrollY > 20;
 };
 
-// Toggle mobile menu
 const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value;
 };
 
-// Close mobile menu
 const closeMobileMenu = () => {
   mobileMenuOpen.value = false;
 };
 
-// Go to home
+const toggleSearch = () => {
+  isSearchOpen.value = !isSearchOpen.value;
+};
+
+const closeSearch = () => {
+  isSearchOpen.value = false;
+};
+
 const goHome = () => {
   router.push('/');
   closeMobileMenu();
 };
 
-// Toggle language
 const toggleLanguage = () => {
   const newLang = currentLanguage.value === 'ar' ? 'en' : 'ar';
   store.updatePreference('language', newLang);
@@ -136,12 +166,10 @@ const toggleLanguage = () => {
   document.documentElement.dir = newLang === 'ar' ? 'rtl' : 'ltr';
 };
 
-// Mount events
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
 });
 
-// Unmount events
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
 });
@@ -269,6 +297,17 @@ onUnmounted(() => {
     background: rgba($dark-accent, 0.1);
     color: $dark-accent;
     border-color: $dark-accent;
+  }
+
+  &.ai-button {
+    border-color: $dark-accent;
+    color: $dark-accent;
+    box-shadow: 0 0 10px rgba($dark-accent, 0.2);
+    
+    &:hover {
+      background: $dark-accent;
+      color: $dark-primary;
+    }
   }
 }
 

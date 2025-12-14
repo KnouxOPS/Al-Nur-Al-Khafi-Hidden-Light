@@ -3,34 +3,44 @@
     <!-- Hero Section -->
     <section class="hero">
       <div class="hero-background">
-        <img 
-          src="https://images.unsplash.com/photo-1542640244-7e672d6bd4e8?q=80&w=2667&auto=format&fit=crop" 
-          alt="Islamic Architecture" 
-          class="bg-image"
-        />
+        <div class="bg-image-wrapper">
+          <img 
+            src="https://images.unsplash.com/photo-1519817650390-64a93db51149?q=80&w=2574&auto=format&fit=crop" 
+            alt="Islamic Art Detail" 
+            class="bg-image"
+          />
+        </div>
         <div class="overlay"></div>
+        <div class="texture-overlay"></div>
       </div>
 
       <div class="hero-content">
-        <div class="title-container fade-in-slow">
-          <h1 class="title">وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِّلْعَالَمِينَ</h1>
-          <div class="ornament"></div>
+        <div class="title-wrapper">
+          <h1 class="title reveal-text">وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِّلْعَالَمِينَ</h1>
         </div>
         
-        <p class="subtitle fade-in-up delay-1">{{ $t('heroSubtitle') }}</p>
+        <div class="ornament-container fade-in delay-1">
+          <div class="ornament-line"></div>
+          <div class="ornament-symbol">۞</div>
+          <div class="ornament-line"></div>
+        </div>
         
-        <div class="hero-buttons fade-in-up delay-2">
+        <p class="subtitle fade-in-up delay-2">{{ $t('home.heroSubtitle') || $t('heroSubtitle') }}</p>
+        
+        <div class="hero-buttons fade-in-up delay-3">
           <router-link to="/biography" class="btn btn-primary">
-            {{ $t('startJourney') }}
+            <span>{{ $t('home.startJourney') || $t('startJourney') }}</span>
           </router-link>
           <router-link to="/about" class="btn btn-outline">
-            {{ $t('aboutUs') }}
+            <span>{{ $t('home.aboutUs') || $t('aboutUs') }}</span>
           </router-link>
         </div>
       </div>
       
-      <div class="scroll-indicator fade-in delay-3">
-        <span></span>
+      <div class="scroll-indicator fade-in delay-4">
+        <div class="mouse">
+          <div class="wheel"></div>
+        </div>
       </div>
     </section>
 
@@ -43,20 +53,20 @@
     <section class="grid-section container fade-in-up delay-4">
       <router-link to="/biography" class="grid-card">
         <div class="card-icon">📖</div>
-        <h3>{{ $t('biography') }}</h3>
-        <p>{{ $t('biographyDesc') }}</p>
+        <h3>{{ $t('nav.biography') || $t('biography') }}</h3>
+        <p>{{ $t('home.biographyDesc') || $t('biographyDesc') }}</p>
       </router-link>
       
       <router-link to="/battles" class="grid-card">
         <div class="card-icon">⚔️</div>
-        <h3>{{ $t('battles') }}</h3>
-        <p>{{ $t('battlesDesc') }}</p>
+        <h3>{{ $t('nav.battles') || $t('battles') }}</h3>
+        <p>{{ $t('home.battlesDesc') || $t('battlesDesc') }}</p>
       </router-link>
       
       <router-link to="/companions" class="grid-card">
         <div class="card-icon">👥</div>
-        <h3>{{ $t('companions') }}</h3>
-        <p>{{ $t('companionsDesc') }}</p>
+        <h3>{{ $t('nav.companions') || $t('companions') }}</h3>
+        <p>{{ $t('home.companionsDesc') || $t('companionsDesc') }}</p>
       </router-link>
     </section>
   </div>
@@ -64,6 +74,22 @@
 
 <script setup>
 import DailyHadith from '@/components/widgets/DailyHadith.vue';
+import { onMounted } from 'vue';
+
+// Parallax effect on mouse move
+onMounted(() => {
+  const hero = document.querySelector('.hero');
+  const bgImage = document.querySelector('.bg-image');
+  
+  if (hero && bgImage) {
+    hero.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth) * 2 - 1;
+      const y = (e.clientY / window.innerHeight) * 2 - 1;
+      
+      bgImage.style.transform = `scale(1.1) translate(${x * 10}px, ${y * 10}px)`;
+    });
+  }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -77,14 +103,15 @@ import DailyHadith from '@/components/widgets/DailyHadith.vue';
 }
 
 .hero {
-  height: 90vh;
+  height: 95vh;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   overflow: hidden;
-  margin-top: -$spacing-lg; // Offset main padding
+  margin-top: -$header-height; // Full screen feel
+  padding-top: $header-height;
 }
 
 .hero-background {
@@ -95,11 +122,22 @@ import DailyHadith from '@/components/widgets/DailyHadith.vue';
   height: 100%;
   z-index: 0;
   
+  .bg-image-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
   .bg-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    animation: slowZoom 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(1.1);
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    // Fallback animation if JS fails or for mobile
+    @media (hover: none) {
+      animation: breathe 20s infinite alternate ease-in-out;
+    }
   }
   
   .overlay {
@@ -108,71 +146,93 @@ import DailyHadith from '@/components/widgets/DailyHadith.vue';
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at center, rgba($dark-background, 0.6) 0%, rgba($dark-background, 0.9) 100%);
-    
-    .theme-light & {
-      background: radial-gradient(circle at center, rgba($light-background, 0.4) 0%, rgba($light-background, 0.8) 100%);
-    }
+    background: radial-gradient(circle at center, rgba($dark-background, 0.4) 0%, rgba($dark-background, 0.85) 90%);
+    mix-blend-mode: multiply;
+  }
+  
+  .texture-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
   }
 }
 
 .hero-content {
   position: relative;
-  z-index: 1;
-  max-width: 900px;
+  z-index: 2;
+  max-width: 1000px;
   padding: 0 $spacing-md;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.title-container {
-  margin-bottom: $spacing-lg;
-  position: relative;
+.title-wrapper {
+  overflow: hidden;
+  margin-bottom: $spacing-md;
 }
 
 .title {
   font-family: 'Amiri', serif;
-  font-size: 3.5rem;
-  line-height: 1.6;
-  // Use a gold gradient
-  background: linear-gradient(to bottom, #FFD700, #DAA520);
+  font-size: 4rem;
+  line-height: 1.4;
+  background: linear-gradient(180deg, #FFD700 0%, #B8860B 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  // Fallback color
   color: $dark-accent;
-  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   margin: 0;
+  padding: 0 10px; // Prevent clipping of calligraphic ends
   
   @media (max-width: $breakpoint-mobile) {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
   }
 }
 
-.ornament {
-  width: 120px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, $dark-accent, transparent);
-  margin: $spacing-md auto;
+.ornament-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
   opacity: 0.8;
+  width: 100%;
+  max-width: 400px;
+}
+
+.ornament-line {
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, transparent, $dark-accent, transparent);
+}
+
+.ornament-symbol {
+  color: $dark-accent;
+  font-size: 1.5rem;
+  text-shadow: 0 0 10px rgba($dark-accent, 0.5);
 }
 
 .subtitle {
-  font-size: $font-size-xl;
-  color: #e2e8f0; // Hardcoded readable light gray for dark overlay
+  font-size: 1.25rem;
+  color: #e2e8f0;
   margin-bottom: $spacing-xl;
   font-weight: 300;
   letter-spacing: 0.5px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-  
-  .theme-light & {
-    color: $light-text;
-    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
-    font-weight: 500;
-  }
+  max-width: 700px;
+  line-height: 1.6;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
 
 .hero-buttons {
   display: flex;
   gap: $spacing-md;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .btn {
@@ -180,36 +240,50 @@ import DailyHadith from '@/components/widgets/DailyHadith.vue';
   border-radius: $border-radius-pill;
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: inline-block;
-  backdrop-filter: blur(4px);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
   
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+  }
+  
+  &:hover::before {
+    left: 100%;
+  }
+
   &.btn-primary {
-    background: linear-gradient(135deg, $dark-accent, darken($dark-accent, 15%));
+    background: linear-gradient(135deg, $dark-accent 0%, darken($dark-accent, 20%) 100%);
     color: $dark-primary;
-    box-shadow: 0 4px 15px rgba($dark-accent, 0.3);
-    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 4px 20px rgba($dark-accent, 0.4);
+    border: 1px solid rgba(255,215,0, 0.3);
     
     &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba($dark-accent, 0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba($dark-accent, 0.6);
     }
   }
   
   &.btn-outline {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.2);
     color: #fff;
     
-    .theme-light & {
-      border-color: $light-accent;
-      color: $light-text;
-      background: rgba(255,255,255,0.6);
-    }
-    
     &:hover {
-      background: rgba(255,255,255,0.2);
-      transform: translateY(-2px);
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.5);
+      transform: translateY(-3px);
     }
   }
 }
@@ -219,78 +293,79 @@ import DailyHadith from '@/components/widgets/DailyHadith.vue';
   bottom: $spacing-xl;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 1;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-xs;
   
-  span {
-    display: block;
-    width: 24px;
+  .mouse {
+    width: 26px;
     height: 40px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-radius: 12px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-radius: 20px;
     position: relative;
     
-    .theme-light & {
-      border-color: rgba(0,0,0,0.4);
-    }
-    
-    &::before {
-      content: '';
+    .wheel {
+      width: 4px;
+      height: 6px;
+      background: $dark-accent;
+      border-radius: 2px;
       position: absolute;
-      top: 8px;
+      top: 6px;
       left: 50%;
       transform: translateX(-50%);
-      width: 4px;
-      height: 4px;
-      background: $dark-accent;
-      border-radius: 50%;
-      animation: scroll 2s infinite;
+      animation: wheel-scroll 1.5s infinite;
     }
   }
 }
 
 // Animations
-@keyframes slowZoom {
-  from { transform: scale(1); }
-  to { transform: scale(1.1); }
+@keyframes breathe {
+  0% { transform: scale(1.1); }
+  100% { transform: scale(1.15); }
 }
 
-@keyframes scroll {
-  0% { transform: translate(-50%, 0); opacity: 1; }
-  100% { transform: translate(-50%, 15px); opacity: 0; }
+@keyframes wheel-scroll {
+  0% { transform: translateX(-50%) translateY(0); opacity: 1; }
+  100% { transform: translateX(-50%) translateY(10px); opacity: 0; }
 }
 
-.fade-in-slow {
-  animation: fadeIn 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+.reveal-text {
+  animation: revealUp 1.2s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.fade-in {
+  animation: fadeIn 1.2s ease-out forwards;
   opacity: 0;
 }
 
 .fade-in-up {
-  animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: fadeInUp 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
   opacity: 0;
   transform: translateY(30px);
-}
-
-.fade-in {
-  animation: fadeIn 1s ease-out forwards;
-  opacity: 0;
 }
 
 .delay-1 { animation-delay: 0.3s; }
 .delay-2 { animation-delay: 0.6s; }
 .delay-3 { animation-delay: 0.9s; }
-.delay-4 { animation-delay: 1.2s; }
+.delay-4 { animation-delay: 1.5s; }
+
+@keyframes revealUp {
+  to { opacity: 1; transform: translateY(0); }
+}
 
 @keyframes fadeIn {
   to { opacity: 1; }
 }
 
 @keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  to { opacity: 1; transform: translateY(0); }
 }
 
+// Other Sections
 .grid-section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -301,45 +376,63 @@ import DailyHadith from '@/components/widgets/DailyHadith.vue';
 
 .grid-card {
   background: rgba($dark-secondary, 0.3);
-  padding: $spacing-lg;
+  padding: $spacing-xl;
   border-radius: $border-radius-lg;
   text-align: center;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   border: 1px solid rgba($dark-accent, 0.1);
   text-decoration: none;
   backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
   
-  .theme-light & {
-    background: rgba($light-secondary, 0.5);
-    border-color: rgba($light-accent, 0.2);
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: $dark-accent;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.4s ease;
   }
   
   &:hover {
-    transform: translateY(-5px);
-    border-color: $dark-accent;
-    background: rgba($dark-secondary, 0.5);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transform: translateY(-8px);
+    border-color: rgba($dark-accent, 0.3);
+    background: rgba($dark-secondary, 0.6);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    
+    &::after {
+      transform: scaleX(1);
+    }
+    
+    .card-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
   }
   
   .card-icon {
-    font-size: 3rem;
-    margin-bottom: $spacing-md;
-    filter: drop-shadow(0 0 10px rgba($dark-accent, 0.2));
+    font-size: 3.5rem;
+    margin-bottom: $spacing-lg;
+    display: inline-block;
+    transition: transform 0.4s ease;
+    filter: drop-shadow(0 0 15px rgba($dark-accent, 0.3));
   }
   
   h3 {
     color: $dark-accent;
     margin-bottom: $spacing-xs;
-    font-size: $font-size-lg;
+    font-size: 1.4rem;
+    font-weight: 700;
   }
   
   p {
-    font-size: $font-size-sm;
+    font-size: 1rem;
     color: $dark-text-secondary;
-    
-    .theme-light & {
-      color: $light-text-secondary;
-    }
+    line-height: 1.6;
   }
 }
 </style>
